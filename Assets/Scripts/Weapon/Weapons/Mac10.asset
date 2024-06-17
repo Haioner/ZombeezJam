@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6a4d5b21bc92f4a9dbdececb3d5aca, type: 3}
+  m_Name: Mac10
+  m_EditorClassIdentifier: 
+  itemHandType: 0
+  WeaponSprite: {fileID: 21300000, guid: d467b74a6a529744e9e87c0ec32614ad, type: 3}
+  WeaponOutlineSprite: {fileID: 21300000, guid: 3ffdf3345b54b6747806244f0b0af011, type: 3}
+  Spread: 10
+  Rate: 12
+  CartridgeAmount: 30
+  ReloadCooldown: 2
+  BulletsPerShoot: 1
+  BulletDamage: 20
+  BulletPrefab: {fileID: 4831610144628171973, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
+  RandShootPitch: {x: 1.4, y: 1.5}
+  ShootClip: {fileID: 8300000, guid: 77178458c1b7f2d4a8f44eae81e4c647, type: 3}
+  StartReloadClip: {fileID: 8300000, guid: d2aec560905520a4882a5b94eceec22d, type: 3}
+  EndReloadClip: {fileID: 8300000, guid: 5081f47611910db41b6f88ad24d89ad9, type: 3}
+  ShootFireParticle: {fileID: 2781813660480177130, guid: a886a4b314f5eae4d9297d164bdedeb7, type: 3}
+  ReloadParticle: {fileID: 7967390158589067519, guid: 75a0001507d1eec48ab5f4f7d4f70de4, type: 3}

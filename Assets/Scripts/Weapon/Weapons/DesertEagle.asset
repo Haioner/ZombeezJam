@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6a4d5b21bc92f4a9dbdececb3d5aca, type: 3}
+  m_Name: DesertEagle
+  m_EditorClassIdentifier: 
+  itemHandType: 0
+  WeaponSprite: {fileID: 21300000, guid: a0074e9001431ff4dbb1e48f4891d47c, type: 3}
+  WeaponOutlineSprite: {fileID: 21300000, guid: 758ba73759cdd8a43bae4af317a12986, type: 3}
+  Spread: 6
+  Rate: 2.5
+  CartridgeAmount: 7
+  ReloadCooldown: 2.1
+  BulletsPerShoot: 1
+  BulletDamage: 10
+  BulletPrefab: {fileID: 4831610144628171973, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
+  RandShootPitch: {x: 0.7, y: 1}
+  ShootClip: {fileID: 8300000, guid: b0d78adef61b6df47b5a05bd27e9de37, type: 3}
+  StartReloadClip: {fileID: 8300000, guid: d2aec560905520a4882a5b94eceec22d, type: 3}
+  EndReloadClip: {fileID: 8300000, guid: 5081f47611910db41b6f88ad24d89ad9, type: 3}
+  ShootFireParticle: {fileID: 2781813660480177130, guid: b3c933774039367489d83e2df429b027, type: 3}
+  ReloadParticle: {fileID: 7967390158589067519, guid: 75a0001507d1eec48ab5f4f7d4f70de4, type: 3}
