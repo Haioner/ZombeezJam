@@ -53,13 +53,13 @@ public class WeaponController : MonoBehaviour
 
     public void SwitchWeapon(WeaponSO weapon, int currentBullets, int inventoryBullets)
     {
-        isReloading = false;
-        reloadTime = weaponSO.ReloadCooldown;
-
         weaponSO = weapon;
         this.currentBullets = currentBullets;
         this.inventoryBullets = inventoryBullets;
         SetWeaponSprite();
+
+        isReloading = false;
+        reloadTime = weaponSO.ReloadCooldown;
 
         OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
     }
@@ -84,7 +84,7 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        if (Input.GetMouseButton(0) && Time.time >= nextFireTime && rotateTowards.isActiveAndEnabled)
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime && rotateTowards.isActiveAndEnabled && !isReloading)
         {
             CinemachineShake.instance.ShakeCamera(1f, 0.1f);
             PlayClipAudio(weaponSO.ShootClip);
