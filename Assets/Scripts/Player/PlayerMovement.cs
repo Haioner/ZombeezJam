@@ -9,11 +9,18 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Camera cam;
 
+    private float currentSpeed;
+    private float currentStamina;
+    private bool chargingStamina;
+
     private void Awake()
     {
         playerManager = GetComponent<PlayerManager>();
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+
+        currentSpeed = playerManager.WalkSpeed;
+        currentStamina = playerManager.MaxStamina;
     }
 
     private void Update()
@@ -21,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         CalculateMovementInput();
         UpdateAnimator();
         Flip();
+        HandleRunning();
     }
 
     private void FixedUpdate()
@@ -37,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CalculateMovement()
     {
-        rb.velocity = movementInput * playerManager.MaxSpeed;
+        rb.velocity = movementInput * currentSpeed;
     }
 
     private void UpdateAnimator()
@@ -54,5 +62,31 @@ public class PlayerMovement : MonoBehaviour
         Vector3 localScale = flipable.localScale;
         localScale.x = direction.x < 0 ? -Mathf.Abs(localScale.x) : Mathf.Abs(localScale.x);
         flipable.localScale = localScale;
+    }
+
+    private void HandleRunning()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina)
+        {
+            currentSpeed = playerManager.RunSpeed;
+            currentStamina -= Time.deltaTime * playerManager.StaminaSpeed;
+        }
+        else if (currentStamina < playerManager.MaxStamina)
+        {
+            currentStamina += Time.deltaTime * (playerManager.StaminaSpeed / 2);
+            currentSpeed = playerManager.WalkSpeed;
+        }
+
+        if(currentStamina <= 0)
+            chargingStamina = true;
+        else if(currentStamina >= 10f && chargingStamina)
+            chargingStamina = false;
+
+        currentStamina = Mathf.Clamp(currentStamina, 0, playerManager.MaxStamina);
+    }
+
+    public float GetCurrentStamina()
+    {
+        return currentStamina;
     }
 }

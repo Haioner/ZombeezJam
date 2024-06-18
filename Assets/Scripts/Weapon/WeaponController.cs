@@ -24,6 +24,7 @@ public class WeaponController : MonoBehaviour
     //Cache
     private RotateTowardsMouse rotateTowards;
     private AudioSource audioSource;
+    private GameObject playerObject;
 
     private void Start()
     {
@@ -32,6 +33,7 @@ public class WeaponController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rotateTowards = GetComponent<RotateTowardsMouse>();
         audioSource = GetComponent<AudioSource>();
+        playerObject = GetComponentInParent<PlayerManager>().gameObject;
 
         SetWeaponSprite();
         OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
@@ -181,7 +183,7 @@ public class WeaponController : MonoBehaviour
     private void SpawnBullet(float angle)
     {
         Projectile newBullet = Instantiate(weaponSO.BulletPrefab, transform.position, Quaternion.identity);
-        newBullet.InitProjectile(angle, weaponSO.BulletDamage);
+        newBullet.InitProjectile(angle, weaponSO.BulletDamage, playerObject);
     }
 
     private float CalculateShootAngle()

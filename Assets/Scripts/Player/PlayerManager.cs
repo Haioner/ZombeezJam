@@ -3,7 +3,10 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [Header("Movement")]
-    public float MaxSpeed = 5f;
+    public float WalkSpeed = 5f;
+    public float RunSpeed = 10f;
+    public float MaxStamina = 100f;
+    public float StaminaSpeed = 10f;
 
     [Header("Health")]
     public float MaxHealth = 100f;
