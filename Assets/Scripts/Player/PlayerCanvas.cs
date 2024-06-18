@@ -7,6 +7,7 @@ public class PlayerCanvas : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private float progressSpeed;
 
     [Header("Stamina")]
     [SerializeField] private Slider staminaSlider;
@@ -24,6 +25,7 @@ public class PlayerCanvas : MonoBehaviour
         healthController = GetComponentInParent<HealthController>();
 
         healthSlider.maxValue = playerManager.MaxHealth;
+        healthSlider.value = playerManager.MaxHealth;
         staminaSlider.maxValue = playerManager.MaxStamina;
     }
 
@@ -37,7 +39,12 @@ public class PlayerCanvas : MonoBehaviour
     {
         if (healthController == null) return;
 
-        healthSlider.value = healthController.GetCurrentHealth();
+        healthSlider.value = Mathf.MoveTowards(healthSlider.value, healthController.GetCurrentHealth(), SpeedProgress());
+    }
+
+    private float SpeedProgress()
+    {
+        return progressSpeed * (playerManager.MaxHealth / 5) * Time.deltaTime;
     }
 
     private void StaminaSlider()

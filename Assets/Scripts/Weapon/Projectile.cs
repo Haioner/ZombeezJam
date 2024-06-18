@@ -9,6 +9,7 @@ public class Projectile : MonoBehaviour
     private Vector2 moveDirection;
     private GameObject owner;
     private Rigidbody2D rb;
+    private int damageCount = 2;
 
     private void OnBecameInvisible()
     {
@@ -44,8 +45,11 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject != owner.gameObject)
         {
-            if (collision.TryGetComponent(out HealthController healthController))
+            if (collision.TryGetComponent(out HealthController healthController) && damageCount > 0)
+            {
                 healthController.TakeDamage(projectileDamage);
+                damageCount--;
+            }
 
             Instantiate(hitParticle, transform.position, Quaternion.identity);
             Destroy(gameObject);

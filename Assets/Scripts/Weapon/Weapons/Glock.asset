@@ -20,7 +20,7 @@ MonoBehaviour:
   CartridgeAmount: 20
   ReloadCooldown: 1.7
   BulletsPerShoot: 1
-  BulletDamage: 10
+  BulletDamage: 2
   BulletPrefab: {fileID: 4831610144628171973, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
   RandShootPitch: {x: 0.8, y: 0.9}
   ShootClip: {fileID: 8300000, guid: 77178458c1b7f2d4a8f44eae81e4c647, type: 3}

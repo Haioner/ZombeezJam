@@ -11,6 +11,7 @@ public class HealthController : MonoBehaviour, IDamage
     [SerializeField] private GameObject damageParticle;
     [SerializeField] private AudioSource damageSource;
     public event EventHandler OnDamaged;
+    public event EventHandler OnDeath;
 
     [Header("Heal")]
     [SerializeField] private GameObject healParticle;
@@ -59,13 +60,14 @@ public class HealthController : MonoBehaviour, IDamage
 
     private void CheckDeath()
     {
-
+        OnDeath?.Invoke(this, EventArgs.Empty);
     }
 
     private void InstantiateFloatNumber(float numberValue, Color textColor)
     {
         Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 0.5f;
         Vector3 spawnPosition = transform.position + randomOffset;
+        spawnPosition.y += 1f;
         FloatNumber currentFloatNumber = Instantiate(floatNumberPrefab, spawnPosition, Quaternion.identity);
         currentFloatNumber.InitFloatNumber(numberValue, textColor);
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -17,6 +18,22 @@ public class PlayerManager : MonoBehaviour
     [Header("Animation")]
     public Animator anim;
 
+    private HealthController healthController;
+    private PlayerMovement playerMovement;
+
+    private void OnEnable()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+        healthController = GetComponent<HealthController>();
+
+        healthController.OnDeath += Death;
+    }
+
+    private void OnDisable()
+    {
+        healthController.OnDeath -= Death;
+    }
+
     private void Update()
     {
         UpdateWeaponAnim();
@@ -29,5 +46,12 @@ public class PlayerManager : MonoBehaviour
             case ItemHandType.Single: anim.SetFloat("WeaponCount", 0); break;
             case ItemHandType.Double: anim.SetFloat("WeaponCount", 1); break;
         }
+    }
+
+    private void Death(object sender, EventArgs e)
+    {
+        playerMovement.enabled = false;
+        weaponController.gameObject.SetActive(false);
+        anim.Play("Death");
     }
 }

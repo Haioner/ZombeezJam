@@ -44,19 +44,21 @@ public class EnemyMovement : MonoBehaviour
     {
         enemyManager = GetComponent<EnemyManager>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = GetComponent<Rigidbody2D>();
+        rb = enemyManager.rb;
         lastKnownTargetPosition = rb.position;
     }
 
     private void Update()
     {
         if (player == null) return;
+        if (enemyManager.enemyState == EnemyState.Attack) return;
         DetectShoot();
     }
 
     private void FixedUpdate()
     {
         if (player == null) return;
+        if (enemyManager.enemyState == EnemyState.Attack) return;
         DetectPlayer();
         UpdatePatrol();
 
@@ -99,8 +101,8 @@ public class EnemyMovement : MonoBehaviour
             enemyManager.enemyState = EnemyState.Chasing;
             lastKnownTargetPosition = player.position;
 
-            if (distance <= distanceToStop)
-                enemyManager.enemyState = EnemyState.Attack;
+            if (Vector2.Distance(player.position, rb.position) <= distanceToStop)
+                enemyManager.enemyState = EnemyState.PreparedToAttack;
         }
         else if (distance <= distanceToStop)
         {

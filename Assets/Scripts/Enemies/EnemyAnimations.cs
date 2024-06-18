@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAnimations : MonoBehaviour
 {
-    [SerializeField] private Animator anim;
-    private Rigidbody2D rb;
+    public event EventHandler OnAttackEvent;
+    private EnemyManager enemyManager;
+    private Animator anim;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        enemyManager = GetComponentInParent<EnemyManager>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -22,8 +25,26 @@ public class EnemyAnimations : MonoBehaviour
         anim.SetTrigger("Hit");
     }
 
+    public void AttackAnimation()
+    {
+        anim.SetTrigger("Attack");
+    }
+
     private void UpdateAnimator()
     {
-        anim.SetFloat("Speed", rb.velocity.magnitude);
+        anim.SetFloat("Speed", enemyManager.rb.velocity.magnitude);
+
+        if(enemyManager.enemyState == EnemyState.Death)
+            anim.SetTrigger("Death");
+    }
+
+    public void EndAttackEvent()
+    {
+        enemyManager.enemyState = EnemyState.Idle;
+    }
+
+    public void AttackEvent()
+    {
+        OnAttackEvent?.Invoke(this, EventArgs.Empty);
     }
 }
