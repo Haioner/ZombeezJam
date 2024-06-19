@@ -19,7 +19,7 @@ public class WeaponCanvas : MonoBehaviour
     private void Start()
     {
         float fillSpeedMultiplier = 1.2f;
-        currentReloadCooldown = weaponController.weaponSO.ReloadCooldown * fillSpeedMultiplier;
+        currentReloadCooldown = weaponController.statistics.ReloadTime * fillSpeedMultiplier;
     }
 
     private void OnEnable()
@@ -46,6 +46,9 @@ public class WeaponCanvas : MonoBehaviour
 
         currentBulletsText.text = $"{weaponController.currentBullets}";
         inventoryBulletsText.text = $"<sprite=0>{weaponController.inventoryBullets}";
+
+        currentReloadCooldown = weaponController.statistics.ReloadTime * 1.2f;
+        weaponFill.fillAmount = 1f;
     }
 
     private void ReloadCooldown(object sender, System.EventArgs e)
@@ -56,7 +59,7 @@ public class WeaponCanvas : MonoBehaviour
     private void CalculateReloadFill()
     {
         float fillSpeedMultiplier = 1.2f;
-        float adjustedReloadTime = weaponController.weaponSO.ReloadCooldown * fillSpeedMultiplier;
+        float adjustedReloadTime = weaponController.statistics.ReloadTime * fillSpeedMultiplier;
         if (currentReloadCooldown < adjustedReloadTime)
         {
             currentReloadCooldown += Time.deltaTime;

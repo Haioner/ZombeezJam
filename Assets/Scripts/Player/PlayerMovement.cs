@@ -83,6 +83,8 @@ public class PlayerMovement : MonoBehaviour
             chargingStamina = false;
 
         currentStamina = Mathf.Clamp(currentStamina, 0, playerManager.MaxStamina);
+
+        playerManager.RunFov(Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina);
     }
 
     public float GetCurrentStamina()

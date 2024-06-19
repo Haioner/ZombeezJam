@@ -1,9 +1,11 @@
+using Cinemachine;
 using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
     [Header("Movement")]
+    public CinemachineTargetGroup TargetGroup;
     public float WalkSpeed = 5f;
     public float RunSpeed = 10f;
     public float MaxStamina = 100f;
@@ -37,6 +39,14 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         UpdateWeaponAnim();
+    }
+
+    public void RunFov(bool isFov)
+    {
+        if (isFov)
+            TargetGroup.m_Targets[0].radius = 7;
+        else
+            TargetGroup.m_Targets[0].radius = 6;
     }
 
     private void UpdateWeaponAnim()

@@ -1,5 +1,15 @@
-using Unity.VisualScripting;
 using UnityEngine;
+
+[System.Serializable]
+public class WeaponStatistics
+{
+    public int WeaponTier;
+    public float Damage;
+    public float Spread;
+    public float Rate;
+    public float AmmoAmount;
+    public float ReloadTime;
+}
 
 public class WeaponController : MonoBehaviour
 {
@@ -8,6 +18,9 @@ public class WeaponController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public event System.EventHandler OnBulletChanged;
     public event System.EventHandler OnReload;
+
+    [Header("Statistics")]
+    public WeaponStatistics statistics;
 
     [Header("Bullets")]
     public int currentBullets = 0;
@@ -28,7 +41,7 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
-        reloadTime = weaponSO.ReloadCooldown;
+        reloadTime = statistics.ReloadTime;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         rotateTowards = GetComponent<RotateTowardsMouse>();
@@ -53,15 +66,22 @@ public class WeaponController : MonoBehaviour
         SpinByRate();
     }
 
-    public void SwitchWeapon(WeaponSO weapon, int currentBullets, int inventoryBullets)
+    public void AddInventoryAmmo(int amount)
+    {
+        inventoryBullets += amount;
+        OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
+    }
+
+    public void SwitchWeapon(WeaponSO weapon, int currentBullets, int inventoryBullets, WeaponStatistics statistics)
     {
         weaponSO = weapon;
         this.currentBullets = currentBullets;
         this.inventoryBullets = inventoryBullets;
+        this.statistics = statistics;
         SetWeaponSprite();
 
         isReloading = false;
-        reloadTime = weaponSO.ReloadCooldown;
+        reloadTime = statistics.ReloadTime;
 
         OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
     }
@@ -109,7 +129,7 @@ public class WeaponController : MonoBehaviour
             CartRidgeShoot();
 
             //Restart Rate
-            nextFireTime = Time.time + 1f / weaponSO.Rate;
+            nextFireTime = Time.time + 1f / statistics.Rate;
 
             OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
         }
@@ -122,7 +142,7 @@ public class WeaponController : MonoBehaviour
 
     private void ReloadGun()
     {
-        if (inventoryBullets > 0 && !isReloading && currentBullets < weaponSO.CartridgeAmount)
+        if (inventoryBullets > 0 && !isReloading && currentBullets < (int)statistics.AmmoAmount)
         {
             isReloading = true;
             PlayClipAudio(weaponSO.StartReloadClip);
@@ -137,7 +157,7 @@ public class WeaponController : MonoBehaviour
             reloadTime -= Time.deltaTime;
         else if (reloadTime <= 0)
         {
-            float bulletsToReload = weaponSO.CartridgeAmount - currentBullets;
+            float bulletsToReload = statistics.AmmoAmount - currentBullets;
             if (inventoryBullets > 0 && bulletsToReload > 0)
             {
                 PlayClipAudio(weaponSO.EndReloadClip);
@@ -145,7 +165,7 @@ public class WeaponController : MonoBehaviour
                 inventoryBullets -= (int)Mathf.Min(bulletsToReload, inventoryBullets);
 
                 isReloading = false;
-                reloadTime = weaponSO.ReloadCooldown;
+                reloadTime = statistics.ReloadTime;
                 OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
             }
         }
@@ -161,7 +181,7 @@ public class WeaponController : MonoBehaviour
         if (inCooldown)
         {
             rotateTowards.enabled = false;
-            float degreesPerSecond = 360f * weaponSO.Rate;
+            float degreesPerSecond = 360f * statistics.Rate;
             transform.parent.Rotate(Vector3.forward, degreesPerSecond * Time.deltaTime);
         }
         else
@@ -183,7 +203,7 @@ public class WeaponController : MonoBehaviour
     private void SpawnBullet(float angle)
     {
         Projectile newBullet = Instantiate(weaponSO.BulletPrefab, transform.position, Quaternion.identity);
-        newBullet.InitProjectile(angle, weaponSO.BulletDamage, playerObject);
+        newBullet.InitProjectile(angle, statistics.Damage, playerObject);
     }
 
     private float CalculateShootAngle()
@@ -194,7 +214,7 @@ public class WeaponController : MonoBehaviour
         Vector3 direction = (mousePosition - transform.position).normalized;
 
         //Spread
-        float randomAngle = Random.Range(-weaponSO.Spread, weaponSO.Spread);
+        float randomAngle = Random.Range(-statistics.Spread, statistics.Spread);
 
         //Calculate angle
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

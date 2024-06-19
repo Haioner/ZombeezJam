@@ -18,7 +18,7 @@ public class FloatNumber : MonoBehaviour
 
     public void InitFloatNumber(float numberValue, Color textColor)
     {
-        floatNumberText.text = numberValue.ToString();
+        floatNumberText.text = numberValue.ToString("F0");
         floatNumberText.color = textColor;
         Invoke(nameof(EnableFadeOut), delayToDestroy);
     }

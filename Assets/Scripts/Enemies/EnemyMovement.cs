@@ -6,27 +6,27 @@ public class EnemyMovement : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float speed = 2f;
-    [SerializeField] private float distanceToStop = 1f;
+    [SerializeField] private float distanceToStop = 1.1f;
     [SerializeField] private Transform flipable;
     private Vector2 lastKnownTargetPosition;
 
     [Header("Detection Range")]
     [SerializeField] private float detectionShootRange = 10f;
-    [SerializeField] private float chaseShootTimer = 3f;
+    [SerializeField] private float chaseShootTimer = 8f;
     private float currentChaseShootTimer;
     private bool isChasingShoot;
 
     [Header("Patrol")]
-    [SerializeField] private float patrolCooldown = 2f;
-    [SerializeField] private float minDistancePatrol = 5f;
-    [SerializeField] private float maxDistancePatrol = 15f;
+    [SerializeField] private float patrolCooldown = 21;
+    [SerializeField] private float minDistancePatrol = 2.5f;
+    [SerializeField] private float maxDistancePatrol = 10f;
     private float currentPatrolCooldown;
 
     [Header("Avoid Obstacles")]
-    [SerializeField] private int numRays = 10;
-    [SerializeField] private float avoidForceMultiplier = 25f;
-    [SerializeField] private float avoidConeAngle = 180f;
-    [SerializeField] private float avoidDetectionDistance = 1.12f;
+    [SerializeField] private int numRays = 6;
+    [SerializeField] private float avoidForceMultiplier = 2f;
+    [SerializeField] private float avoidConeAngle = 100f;
+    [SerializeField] private float avoidDetectionDistance = 0.9f;
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 5f;
@@ -68,7 +68,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void DetectShoot()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (Vector2.Distance(transform.position, player.position) <= detectionShootRange)
             {
