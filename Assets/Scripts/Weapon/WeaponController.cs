@@ -18,6 +18,7 @@ public class WeaponController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public event System.EventHandler OnBulletChanged;
     public event System.EventHandler OnReload;
+    public event System.EventHandler OnShoot;
 
     [Header("Statistics")]
     public WeaponStatistics statistics;
@@ -132,6 +133,7 @@ public class WeaponController : MonoBehaviour
             nextFireTime = Time.time + 1f / statistics.Rate;
 
             OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
+            OnShoot?.Invoke(this, System.EventArgs.Empty);
         }
     }
 

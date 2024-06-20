@@ -398,6 +398,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSO: {fileID: 11400000, guid: 17a77a1a66176c4449efd293b4d33554, type: 2}
+  statistics:
+    WeaponTier: 0
+    Damage: 0
+    Spread: 0
+    Rate: 0
+    AmmoAmount: 0
+    ReloadTime: 0
   currentBullets: 0
   inventoryBullets: 10
 --- !u!82 &1021974083536958815

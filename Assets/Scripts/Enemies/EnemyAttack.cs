@@ -68,7 +68,9 @@ public class EnemyAttack : MonoBehaviour
         if(playerHealth == null)
             playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
 
-        playerHealth.TakeDamage(attackDamage);
+        float distance = Vector2.Distance(playerHealth.transform.position, transform.position);
+        if (distance <= 1.1f)
+            playerHealth.TakeDamage(attackDamage);
     }
 
     private void AttackRanged()

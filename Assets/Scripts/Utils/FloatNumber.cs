@@ -23,6 +23,13 @@ public class FloatNumber : MonoBehaviour
         Invoke(nameof(EnableFadeOut), delayToDestroy);
     }
 
+    public void InitFloatNumber(string floatText, Color textColor)
+    {
+        floatNumberText.text = floatText;
+        floatNumberText.color = textColor;
+        Invoke(nameof(EnableFadeOut), delayToDestroy);
+    }
+
     private void EnableFadeOut()
     {
         canFadeOut = true;

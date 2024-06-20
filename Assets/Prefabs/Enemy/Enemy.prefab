@@ -139,7 +139,7 @@ MonoBehaviour:
   minDistancePatrol: 2.5
   maxDistancePatrol: 10
   numRays: 6
-  avoidForceMultiplier: 2
+  avoidForceMultiplier: 1.4
   avoidConeAngle: 100
   avoidDetectionDistance: 0.9
   rotationSpeed: 5
