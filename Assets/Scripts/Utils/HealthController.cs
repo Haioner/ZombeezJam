@@ -9,13 +9,13 @@ public class HealthController : MonoBehaviour, IDamage
 
     [Header("Damage")]
     [SerializeField] private GameObject damageParticle;
-    [SerializeField] private AudioSource damageSource;
+    [SerializeField] private AudioClip damageClip;
     public event EventHandler OnDamaged;
     public event EventHandler OnDeath;
 
     [Header("Heal")]
     [SerializeField] private GameObject healParticle;
-    [SerializeField] private AudioSource healSource;
+    [SerializeField] private AudioClip healClip;
 
     [Header("FloatNumber")]
     [SerializeField] private FloatNumber floatNumberPrefab;
@@ -48,6 +48,12 @@ public class HealthController : MonoBehaviour, IDamage
         {
             currentHealth -= damageValue;
             InstantiateFloatNumber(damageValue, Color.red);
+
+            Vector3 spawnPosition = transform.position;
+            spawnPosition.y += 1f;
+            Instantiate(damageParticle, spawnPosition, Quaternion.identity);
+
+            SoundManager.PlayAudioClipVolume(damageClip, 1f);
             OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 

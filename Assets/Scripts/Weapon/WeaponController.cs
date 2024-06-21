@@ -39,6 +39,7 @@ public class WeaponController : MonoBehaviour
     private RotateTowardsMouse rotateTowards;
     private AudioSource audioSource;
     private GameObject playerObject;
+    private OptionsManager optionsManager;
 
     private void Start()
     {
@@ -48,6 +49,7 @@ public class WeaponController : MonoBehaviour
         rotateTowards = GetComponent<RotateTowardsMouse>();
         audioSource = GetComponent<AudioSource>();
         playerObject = GetComponentInParent<PlayerManager>().gameObject;
+        optionsManager = FindObjectOfType<OptionsManager>();
 
         SetWeaponSprite();
         OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
@@ -109,6 +111,8 @@ public class WeaponController : MonoBehaviour
 
         if (Input.GetMouseButton(0) && Time.time >= nextFireTime && rotateTowards.isActiveAndEnabled && !isReloading)
         {
+            if (optionsManager.GetOptionsState()) return;
+
             CinemachineShake.instance.ShakeCamera(1f, 0.1f);
             PlayClipAudio(weaponSO.ShootClip);
 

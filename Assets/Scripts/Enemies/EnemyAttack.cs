@@ -1,22 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-[System.Serializable]
-public enum AttackType
-{
-    Meele, Ranged
-}
+using System;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [Header("Attack")]
-    [SerializeField] private AttackType attackType;
-    [SerializeField] private float attackDamage = 10f;
-    [SerializeField] private float attackCooldown = 1f;
-    private float currentAttackCooldown;
+    [Header("Ranged")]
+    [SerializeField] private Transform attackPivot;
 
+    private float currentAttackCooldown;
     private EnemyManager enemyManager;
     private EnemyAnimations enemyAnimations;
     private HealthController playerHealth;
@@ -27,6 +17,8 @@ public class EnemyAttack : MonoBehaviour
         enemyAnimations = GetComponentInChildren<EnemyAnimations>();
 
         enemyAnimations.OnAttackEvent += Attack;
+
+        currentAttackCooldown = enemyManager.enemySO.AttackDamage;
     }
 
     private void OnDisable()
@@ -37,14 +29,12 @@ public class EnemyAttack : MonoBehaviour
     private void Update()
     {
         if (enemyManager.enemyState == EnemyState.PreparedToAttack)
-        {
             CalculateAttack();
-        }
     }
 
     private void CalculateAttack()
     {
-        if (currentAttackCooldown <= attackCooldown)
+        if (currentAttackCooldown <= enemyManager.enemySO.AttackCooldown)
             currentAttackCooldown += Time.deltaTime;
         else
         {
@@ -56,7 +46,8 @@ public class EnemyAttack : MonoBehaviour
 
     private void Attack(object sender, EventArgs e)
     {
-        switch (attackType)
+        SoundManager.PlayAudioClip(enemyManager.enemySO.AttackClip, UnityEngine.Random.Range(0.9f,1.2f));
+        switch (enemyManager.enemySO.attackType)
         {
             case AttackType.Meele: AttackMeele(); break;
             case AttackType.Ranged: AttackRanged(); break;
@@ -70,11 +61,22 @@ public class EnemyAttack : MonoBehaviour
 
         float distance = Vector2.Distance(playerHealth.transform.position, transform.position);
         if (distance <= 1.1f)
-            playerHealth.TakeDamage(attackDamage);
+            playerHealth.TakeDamage(enemyManager.enemySO.AttackDamage);
     }
 
     private void AttackRanged()
     {
+        if (playerHealth == null)
+            playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
 
+        Vector2 directionToPlayer = (playerHealth.transform.position - attackPivot.position).normalized;
+        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+        SpawnProjectile(angle);
+    }
+
+    private void SpawnProjectile(float angle)
+    {
+        Projectile newBullet = Instantiate(enemyManager.enemySO.AttackProjectile, attackPivot.position, Quaternion.identity);
+        newBullet.InitProjectile(angle, enemyManager.enemySO.AttackDamage, gameObject);
     }
 }

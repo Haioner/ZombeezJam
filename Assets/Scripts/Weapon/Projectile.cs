@@ -29,6 +29,8 @@ public class Projectile : MonoBehaviour
 
         projectileDamage = damage;
         this.owner = owner;
+
+        GetComponent<CircleCollider2D>().excludeLayers = LayerMask.GetMask(LayerMask.LayerToName(owner.layer));
     }
 
     private void Update()

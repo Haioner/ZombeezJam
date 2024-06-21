@@ -38,9 +38,10 @@ public class EnemyAnimations : MonoBehaviour
             anim.SetTrigger("Death");
     }
 
-    public void EndAttackEvent()
+    public void BackToIdleEvent()
     {
-        enemyManager.enemyState = EnemyState.Idle;
+        if (enemyManager.enemyState != EnemyState.Death)
+            enemyManager.enemyState = EnemyState.Idle;
     }
 
     public void AttackEvent()

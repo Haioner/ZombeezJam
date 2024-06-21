@@ -75,7 +75,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         float randStats = initialValue;
 
         if (moreIsGood)
-            randStats = Random.Range(initialValue * 0.3f, initialValue * 1.3f * statistics.WeaponTier);
+            randStats = Random.Range(initialValue * 0.5f, initialValue * 1.2f * statistics.WeaponTier);
         else
         {
             float subtractValue = Random.Range(initialValue * 0.3f * -statistics.WeaponTier, initialValue * 0.3f * statistics.WeaponTier);
@@ -105,7 +105,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         int randCurrent = Random.Range(0, weaponSO.CartridgeAmount);
         currentBullets = randCurrent;
 
-        int randInventory = Random.Range(0, 100);
+        int randInventory = Random.Range(0, 30);
         inventoryBullets = randInventory;
     }
 
@@ -113,47 +113,47 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     {
         float thisDamageMultipliedByBullets = statistics.Damage * weaponSO.BulletsPerShoot;
         float weaponDamageMultipliedByBullets = weaponController.statistics.Damage * weaponController.weaponSO.BulletsPerShoot;
+        int totalWeaponAmmo = weaponController.inventoryBullets + weaponController.currentBullets;
 
         //Equipped
         canvasWeaponStatistics.WeaponTier.value = weaponController.statistics.WeaponTier;
-        int totalWeaponAmmo = weaponController.inventoryBullets + weaponController.currentBullets;
         canvasWeaponStatistics.TotalAmmoText.text = "<sprite=" + 4.ToString() + "> " + totalWeaponAmmo.ToString("F0");
-        canvasWeaponStatistics.DamageText.text = "<sprite=" + 5.ToString() + "> " + weaponDamageMultipliedByBullets.ToString("F0");
-        canvasWeaponStatistics.SpreadText.text = "<sprite=" + 3.ToString() + "> " + weaponController.statistics.Spread.ToString("F1");
-        canvasWeaponStatistics.RateText.text = "<sprite=" + 0.ToString() + "> " + weaponController.statistics.Rate.ToString("F1");
-        canvasWeaponStatistics.AmmoAmountText.text = "<sprite=" + 1.ToString() + "> " + weaponController.statistics.AmmoAmount.ToString("F0");
-        canvasWeaponStatistics.ReloadTimeText.text = "<sprite=" + 2.ToString() + "> " + weaponController.statistics.ReloadTime.ToString("F1");
+        canvasWeaponStatistics.DamageText.text = "POWER: " + weaponDamageMultipliedByBullets.ToString("F0");
+        canvasWeaponStatistics.SpreadText.text = "SPREAD: " + weaponController.statistics.Spread.ToString("F1");
+        canvasWeaponStatistics.RateText.text = "RATE: " + weaponController.statistics.Rate.ToString("F1");
+        canvasWeaponStatistics.AmmoAmountText.text = "CARTRIDGE: " + weaponController.statistics.AmmoAmount.ToString("F0");
+        canvasWeaponStatistics.ReloadTimeText.text = "RELOAD: " + weaponController.statistics.ReloadTime.ToString("F1");
 
         //Drop
         canvasWeaponDropStatistics.WeaponTier.value = statistics.WeaponTier;
-        ComparateValues(true, inventoryBullets + currentBullets,
-            weaponController.inventoryBullets + weaponController.currentBullets, canvasWeaponDropStatistics.TotalAmmoText, 4, "F0");
-        ComparateValues(true, thisDamageMultipliedByBullets, weaponDamageMultipliedByBullets, canvasWeaponDropStatistics.DamageText, 5, "F0");
-        ComparateValues(false, statistics.Spread, weaponController.statistics.Spread, canvasWeaponDropStatistics.SpreadText, 3, "F1");
-        ComparateValues(true, statistics.Rate, weaponController.statistics.Rate, canvasWeaponDropStatistics.RateText, 0, "F1");
-        ComparateValues(true, statistics.AmmoAmount, weaponController.statistics.AmmoAmount, canvasWeaponDropStatistics.AmmoAmountText, 1, "F0");
-        ComparateValues(false, statistics.ReloadTime, weaponController.statistics.ReloadTime, canvasWeaponDropStatistics.ReloadTimeText, 2, "F1");
+        ComparateValues(true, inventoryBullets + currentBullets, totalWeaponAmmo, canvasWeaponDropStatistics.TotalAmmoText, "<sprite=4> ", "F0");
+        ComparateValues(true, thisDamageMultipliedByBullets, weaponDamageMultipliedByBullets, canvasWeaponDropStatistics.DamageText, "POWER: ", "F0");
+        ComparateValues(false, statistics.Spread, weaponController.statistics.Spread, canvasWeaponDropStatistics.SpreadText, "SPREAD: ", "F1");
+        ComparateValues(true, statistics.Rate, weaponController.statistics.Rate, canvasWeaponDropStatistics.RateText, "RATE: ", "F1");
+        ComparateValues(true, statistics.AmmoAmount, weaponController.statistics.AmmoAmount, canvasWeaponDropStatistics.AmmoAmountText, "CARTRIDGE: ", "F0");
+        ComparateValues(false, statistics.ReloadTime, weaponController.statistics.ReloadTime, canvasWeaponDropStatistics.ReloadTimeText, "RELOAD: ", "F1");
 
     }
 
-    private void ComparateValues(bool moreIsGood, float dropValue, float weaponValue, TextMeshProUGUI statisticsText, int spriteIndex, string stringFormat)
+    private void ComparateValues(bool moreIsGood, float firstValue, float compareValue, TextMeshProUGUI statisticsText, string contentName, string stringFormat)
     {
-        statisticsText.text = "<sprite=" + spriteIndex.ToString() + "> " + dropValue.ToString(stringFormat);
+        //statisticsText.text = "<sprite=" + spriteIndex.ToString() + "> " + firstValue.ToString(stringFormat);
+        statisticsText.text = contentName + firstValue.ToString(stringFormat);
 
         if (moreIsGood)
         {
-            if (dropValue > weaponValue)
+            if (firstValue > compareValue)
                 statisticsText.color = Color.green;
-            else if (dropValue == weaponValue)
+            else if (firstValue == compareValue)
                 statisticsText.color = Color.white;
             else
                 statisticsText.color = Color.red;
         }
         else
         {
-            if (dropValue > weaponValue)
+            if (firstValue > compareValue)
                 statisticsText.color = Color.red;
-            else if (dropValue == weaponValue)
+            else if (firstValue == compareValue)
                 statisticsText.color = Color.white;
             else
                 statisticsText.color = Color.green;

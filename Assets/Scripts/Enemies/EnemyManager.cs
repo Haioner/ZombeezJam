@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-[System.Serializable]
+[Serializable]
 public enum EnemyState
 {
     Idle, Patrol, Chasing, PreparedToAttack, Attack, Death
@@ -9,32 +9,39 @@ public enum EnemyState
 
 public class EnemyManager : MonoBehaviour
 {
-    public EnemyState enemyState;
+    public EnemySO enemySO;
+    [SerializeField] private LayerMask detectLayer;
 
+    public EnemyState enemyState;
     [HideInInspector] public HealthController healthController;
     [HideInInspector] public EnemyAnimations enemyAnimations;
     [HideInInspector] public EnemyMovement enemyMovement;
     [HideInInspector] public EnemyAttack enemyAttack;
     [HideInInspector] public Rigidbody2D rb;
+    public Transform player { get; set; }
 
-    private float currentTimerHit;
+    private float currentTimerStopMovementHit;
 
-    private void OnEnable()
+    private void Awake()
     {
         healthController = GetComponent<HealthController>();
         enemyAnimations = GetComponentInChildren<EnemyAnimations>();
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAttack = GetComponent<EnemyAttack>();
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
-        currentTimerHit = 0.2f;
-        healthController.OnDamaged += HitMovement;
+    private void OnEnable()
+    {
+        currentTimerStopMovementHit = 0.2f;
+        healthController.OnDamaged += StopMovementHit;
         healthController.OnDeath += Death;
     }
 
     private void OnDisable()
     {
-        healthController.OnDamaged -= HitMovement;
+        healthController.OnDamaged -= StopMovementHit;
         healthController.OnDeath -= Death;
     }
 
@@ -42,16 +49,27 @@ public class EnemyManager : MonoBehaviour
     {
         if (enemyState == EnemyState.Death) return;
 
-        CalculateMovementHit();
+        StopMovementHitTimer();
     }
 
-    private void CalculateMovementHit()
+    public float GetPlayerDistance()
     {
-        if (currentTimerHit < 0.2f)
+        return Vector2.Distance(transform.position, player.position);
+    }
+
+    public bool SawPlayer()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, Mathf.Infinity, detectLayer);
+        return hit.collider.CompareTag("Player");
+    }
+
+    private void StopMovementHitTimer()
+    {
+        if (currentTimerStopMovementHit < 0.2f)
         {
             enemyMovement.enabled = false;
             rb.velocity = rb.velocity / 1.1f;
-            currentTimerHit += Time.deltaTime;
+            currentTimerStopMovementHit += Time.deltaTime;
         }
         else
         {
@@ -59,10 +77,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void HitMovement(object sender, EventArgs e)
+    private void StopMovementHit(object sender, EventArgs e)
     {
         enemyAnimations.HitAnimation();
-        currentTimerHit = 0f;
+        currentTimerStopMovementHit = 0f;
     }
 
     private void Death(object sender, EventArgs e)

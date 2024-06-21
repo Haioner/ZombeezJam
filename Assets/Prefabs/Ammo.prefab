@@ -5171,7 +5171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91aeb7168c95f1042ac64d3fb6f477b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMaxRandomAmmo: {x: 1, y: 25}
+  minMaxRandomAmmo: {x: 1, y: 10}
   ammoText: {fileID: 6384540904630344604}
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
   ammoClip: {fileID: 8300000, guid: d2aec560905520a4882a5b94eceec22d, type: 3}

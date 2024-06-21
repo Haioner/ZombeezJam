@@ -112,6 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc57a4dabe5b2904cb6ed2ed170e4396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySO: {fileID: 0}
+  detectLayer:
+    serializedVersion: 2
+    m_Bits: 136
   enemyState: 0
   healthController: {fileID: 0}
   enemyAnimations: {fileID: 0}
@@ -130,26 +134,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5aa5aab1000c840849fa35f004c9bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  distanceToStop: 1.1
   flipable: {fileID: 6412954729324768413}
-  detectionShootRange: 10
-  chaseShootTimer: 8
-  patrolCooldown: 1
-  minDistancePatrol: 2.5
-  maxDistancePatrol: 10
   numRays: 6
   avoidForceMultiplier: 1.4
   avoidConeAngle: 100
   avoidDetectionDistance: 0.9
+  shootDetectionRange: 10
+  chaseShootTimer: 8
+  patrolCooldown: 1
+  minDistancePatrol: 2.5
+  maxDistancePatrol: 10
   rotationSpeed: 5
   canRotate: 0
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  detectLayer:
-    serializedVersion: 2
-    m_Bits: 136
 --- !u!114 &4809810803172210734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,9 +163,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 40
   damageParticle: {fileID: 0}
-  damageSource: {fileID: 0}
+  damageClip: {fileID: 0}
   healParticle: {fileID: 0}
-  healSource: {fileID: 0}
+  healClip: {fileID: 0}
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
 --- !u!114 &6148691162004473397
 MonoBehaviour:
@@ -180,9 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37dbe79492b18345b4734a6dbca2da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackType: 0
-  attackDamage: 10
-  attackCooldown: 1
+  attackProjectile: {fileID: 0}
+  attackPivot: {fileID: 0}
 --- !u!1 &4688016736382801117
 GameObject:
   m_ObjectHideFlags: 0

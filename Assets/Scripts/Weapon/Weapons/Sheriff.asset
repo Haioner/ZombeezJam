@@ -21,7 +21,7 @@ MonoBehaviour:
   ReloadCooldown: 2.1
   BulletsPerShoot: 1
   BulletDamage: 11
-  BulletPrefab: {fileID: 4831610144628171973, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
+  BulletPrefab: {fileID: 3789469736030190664, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
   RandShootPitch: {x: 0.7, y: 0.6}
   ShootClip: {fileID: 8300000, guid: b0d78adef61b6df47b5a05bd27e9de37, type: 3}
   StartReloadClip: {fileID: 8300000, guid: d2aec560905520a4882a5b94eceec22d, type: 3}

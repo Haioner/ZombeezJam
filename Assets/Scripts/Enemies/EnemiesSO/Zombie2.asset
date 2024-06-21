@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4fd529ca09bd7b489292da1e8b949b8, type: 3}
+  m_Name: Zombie2
+  m_EditorClassIdentifier: 
+  animOverride: {fileID: 22100000, guid: d77ac76ea311e65409cb9467dbf84dc2, type: 2}
+  Speed: 2
+  DistanceToStop: 1.1
+  attackType: 1
+  AttackDamage: 10
+  AttackCooldown: 1
+  AttackRange: 5
+  AttackClip: {fileID: 8300000, guid: 5ce351fa84882f246aff39671c4189a9, type: 3}
+  AttackProjectile: {fileID: 3848546295560872535, guid: 619ac243b5f7f6a4b957dd6ac55c3a67, type: 3}

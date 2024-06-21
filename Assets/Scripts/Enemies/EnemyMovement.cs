@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] private float speed = 2f;
-    [SerializeField] private float distanceToStop = 1.1f;
+    [Header("Flip")]
     [SerializeField] private Transform flipable;
-    private Vector2 recordedPerpendicularDirection;
-    private Vector2 lastKnownTargetPosition;
-    private Vector2 firstHitDirection;
-    private bool isAvoidingWall = false;
-    private bool allRaysHittingWall = false;
 
     [Header("Avoid Obstacles")]
     [SerializeField] private int numRays = 6;
@@ -36,21 +29,30 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask wallLayerMask;
-    [SerializeField] private LayerMask detectLayer;
 
     //CACHE
-    private WeaponController weaponController;
-    private Transform player;
+    private Vector2 recordedPerpendicularDirection;
+    private Vector2 lastKnownTargetPosition;
+    private Vector2 firstHitDirection;
+    private bool isAvoidingWall = false;
+    private bool allRaysHittingWall = false;
+    private float stopaAvoidWallCooldown = 0.2f;
+    private float stopAvoidWallTimer = 0f;
 
+    private WeaponController weaponController;
     private EnemyManager enemyManager;
     private Rigidbody2D rb;
 
     #region Methods
     private void OnEnable()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        weaponController = player.GetComponentInChildren<WeaponController>();
+        weaponController = FindObjectOfType<WeaponController>();
+        enemyManager = GetComponent<EnemyManager>();
+        rb = GetComponent<Rigidbody2D>();
+
         weaponController.OnShoot += DetectOnShoot;
+
+        lastKnownTargetPosition = rb.position;
     }
 
     private void OnDisable()
@@ -58,26 +60,18 @@ public class EnemyMovement : MonoBehaviour
         weaponController.OnShoot -= DetectOnShoot;
     }
 
-    private void Start()
-    {
-        enemyManager = GetComponent<EnemyManager>();
-        rb = enemyManager.rb;
-
-        lastKnownTargetPosition = rb.position;
-    }
-
     private void Update()
     {
-        if (player == null || enemyManager.enemyState == EnemyState.Attack) return;
+        if (enemyManager.player == null || enemyManager.enemyState == EnemyState.Attack) return;
 
-        DetectShoot();
+        ShootDetectionTimer();
     }
 
     private void FixedUpdate()
     {
-        if (player == null || enemyManager.enemyState == EnemyState.Attack) return;
+        if (enemyManager.player == null || enemyManager.enemyState == EnemyState.Attack) return;
 
-        DetectPlayer();
+        CalculateTarget();
         UpdatePatrol();
 
         Vector2 moveDirection = AvoidWalls((lastKnownTargetPosition - rb.position).normalized);
@@ -89,10 +83,12 @@ public class EnemyMovement : MonoBehaviour
     #region Move
     private void MoveTowards(Vector2 direction)
     {
-        float distance = Vector2.Distance(lastKnownTargetPosition, rb.position);
-        if (distance > distanceToStop)
+        float distanceTarget = Vector2.Distance(lastKnownTargetPosition, rb.position);
+        float distanceToStop = enemyManager.SawPlayer() ? enemyManager.enemySO.AttackRange : enemyManager.enemySO.DistanceToStop;
+
+        if (distanceTarget > distanceToStop)
         {
-            rb.velocity = direction * speed;
+            rb.velocity = direction * enemyManager.enemySO.Speed;
 
             if (canRotate)
             {
@@ -102,9 +98,7 @@ public class EnemyMovement : MonoBehaviour
             }
         }
         else
-        {
-            rb.velocity = Vector2.zero; // Stop the movement when within the stopping distance
-        }
+            rb.velocity = Vector2.zero; 
     }
 
     private void Flip(Vector2 moveDirection)
@@ -119,11 +113,9 @@ public class EnemyMovement : MonoBehaviour
     #region Shoot Detection
     private void DetectOnShoot(object sender, System.EventArgs e)
     {
-        float distance = Vector2.Distance(transform.position, player.position);
-        if (distance <= shootDetectionRange)
+        if (enemyManager.GetPlayerDistance() <= shootDetectionRange)
         {
-            enemyManager.enemyState = EnemyState.Chasing;
-            lastKnownTargetPosition = player.position;
+            lastKnownTargetPosition = enemyManager.player.position;
 
             isChasingShoot = true;
             currentChaseShootTimer = 0f;
@@ -132,7 +124,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void DetectShoot()
+    private void ShootDetectionTimer()
     {
         if (isChasingShoot)
         {
@@ -149,20 +141,19 @@ public class EnemyMovement : MonoBehaviour
     #endregion
 
     #region Detect Player
-    private void DetectPlayer()
+    private void CalculateTarget()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, Mathf.Infinity, detectLayer);
-        float distance = Vector2.Distance(lastKnownTargetPosition, rb.position);
-        if (hit.collider.CompareTag("Player"))
+        float distanceToTarget = Vector2.Distance(lastKnownTargetPosition, rb.position);
+        if (enemyManager.SawPlayer())
         {
             enemyManager.enemyState = EnemyState.Chasing;
-            lastKnownTargetPosition = player.position;
+            lastKnownTargetPosition = enemyManager.player.position;
 
             //Prepared to attack
-            if (Vector2.Distance(player.position, rb.position) <= distanceToStop)
+            if (enemyManager.GetPlayerDistance() <= enemyManager.enemySO.AttackRange)
                 enemyManager.enemyState = EnemyState.PreparedToAttack;
         }
-        else if (distance <= distanceToStop)
+        else if (distanceToTarget <= enemyManager.enemySO.DistanceToStop)
         {
             enemyManager.enemyState = EnemyState.Idle;
         }
@@ -281,12 +272,18 @@ public class EnemyMovement : MonoBehaviour
                         recordedPerpendicularDirection = new Vector2(firstHitDirection.y, -firstHitDirection.x).normalized;
                 }
             }
+            stopAvoidWallTimer = 0f;
         }
-        else if (numHits == 0) //0% hit wall
+        else if(hitPercentage <= 0.3f) //30% or minus
         {
-            allRaysHittingWall = false;
-            isAvoidingWall = false;
-            recordedPerpendicularDirection = Vector2.zero;
+            stopAvoidWallTimer += Time.deltaTime;
+            if (stopAvoidWallTimer >= stopaAvoidWallCooldown)
+            {
+                allRaysHittingWall = false;
+                isAvoidingWall = false;
+                recordedPerpendicularDirection = Vector2.zero;
+            }
+
         }
 
         if (isAvoidingWall)
@@ -348,7 +345,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (player == null) return;
+        if (enemyManager == null || enemyManager.player == null) return;
 
         //Cone rays wall avoidence
         Vector2 direction = (lastKnownTargetPosition - (Vector2)transform.position).normalized;
@@ -377,7 +374,7 @@ public class EnemyMovement : MonoBehaviour
         Gizmos.DrawRay(transform.position, recordedPerpendicularDirection * avoidDetectionDistance);
 
         Gizmos.color = Color.yellow; //Circle stop distance
-        Gizmos.DrawWireSphere(transform.position, distanceToStop);
+        Gizmos.DrawWireSphere(transform.position, enemyManager.enemySO.DistanceToStop);
 
         Gizmos.color = Color.blue; //Circle shoot detection
         Gizmos.DrawWireSphere(transform.position, shootDetectionRange);
