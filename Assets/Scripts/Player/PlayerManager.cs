@@ -11,6 +11,9 @@ public class PlayerManager : MonoBehaviour
     public float MaxStamina = 100f;
     public float StaminaSpeed = 10f;
 
+    [Header("Light")]
+    [SerializeField] private Transform lightTransform;
+
     [Header("Health")]
     public float MaxHealth = 100f;
 
@@ -41,6 +44,11 @@ public class PlayerManager : MonoBehaviour
         UpdateWeaponAnim();
     }
 
+    private void LightWeaponPos(Vector3 position)
+    {
+        lightTransform.localPosition = position;
+    }
+
     public void RunFov(bool isFov)
     {
         if (isFov)
@@ -53,8 +61,15 @@ public class PlayerManager : MonoBehaviour
     {
         switch (weaponController.weaponSO.itemHandType)
         {
-            case ItemHandType.Single: anim.SetFloat("WeaponCount", 0); break;
-            case ItemHandType.Double: anim.SetFloat("WeaponCount", 1); break;
+            case ItemHandType.Single:
+                LightWeaponPos(new Vector3(0.33f, 0.2f, 0));
+                anim.SetFloat("WeaponCount", 0);
+                break;
+
+            case ItemHandType.Double:
+                LightWeaponPos(new Vector3(0.55f, -0.03f, 0));
+                anim.SetFloat("WeaponCount", 1);
+                break;
         }
     }
 

@@ -21,6 +21,7 @@ public class HealthController : MonoBehaviour, IDamage
     [SerializeField] private FloatNumber floatNumberPrefab;
 
     public float GetCurrentHealth() { return currentHealth; }
+    public float GetMaxHealth() { return maxHealth; }
     public void SetNewMaxHealth(float maxHealthValue) => maxHealth = maxHealthValue;
 
     private void Start()
@@ -46,9 +47,8 @@ public class HealthController : MonoBehaviour, IDamage
     {
         if (currentHealth > 0)
         {
+            InstantiateFloatNumber(damageValue, Color.white);
             currentHealth -= damageValue;
-            InstantiateFloatNumber(damageValue, Color.red);
-
             Vector3 spawnPosition = transform.position;
             spawnPosition.y += 1f;
             Instantiate(damageParticle, spawnPosition, Quaternion.identity);
@@ -64,12 +64,43 @@ public class HealthController : MonoBehaviour, IDamage
         }
     }
 
+    public void HeadShotDamage(float damageValue)
+    {
+        if (currentHealth > 0)
+        {
+            InstantiateFloatNumber("Head Shot!", Color.red);
+
+            currentHealth -= damageValue;
+            Vector3 spawnPosition = transform.position;
+            spawnPosition.y += 1f;
+            Instantiate(damageParticle, spawnPosition, Quaternion.identity);
+
+            SoundManager.PlayAudioClipVolume(damageClip, 1f);
+            OnDamaged?.Invoke(this, EventArgs.Empty);
+        }
+
+        if (currentHealth <= 0)
+        {
+            CheckDeath();
+            currentHealth = 0;
+        }
+    }
+
     private void CheckDeath()
     {
         OnDeath?.Invoke(this, EventArgs.Empty);
     }
 
     private void InstantiateFloatNumber(float numberValue, Color textColor)
+    {
+        Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 0.5f;
+        Vector3 spawnPosition = transform.position + randomOffset;
+        spawnPosition.y += 1f;
+        FloatNumber currentFloatNumber = Instantiate(floatNumberPrefab, spawnPosition, Quaternion.identity);
+        currentFloatNumber.InitFloatNumber(numberValue, textColor);
+    }
+
+    private void InstantiateFloatNumber(string numberValue, Color textColor)
     {
         Vector3 randomOffset = UnityEngine.Random.insideUnitCircle * 0.5f;
         Vector3 spawnPosition = transform.position + randomOffset;

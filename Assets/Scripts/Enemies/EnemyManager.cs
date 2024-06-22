@@ -12,6 +12,14 @@ public class EnemyManager : MonoBehaviour
     public EnemySO enemySO;
     [SerializeField] private LayerMask detectLayer;
 
+    [Header("Roar")]
+    [SerializeField] private AudioClip roarClip;
+    private bool canRoar = true;
+
+    [Header("Colliders")]
+    [SerializeField] private GameObject standColliders;
+    [SerializeField] private GameObject crawlColliders;
+
     public EnemyState enemyState;
     [HideInInspector] public HealthController healthController;
     [HideInInspector] public EnemyAnimations enemyAnimations;
@@ -19,6 +27,7 @@ public class EnemyManager : MonoBehaviour
     [HideInInspector] public EnemyAttack enemyAttack;
     [HideInInspector] public Rigidbody2D rb;
     public Transform player { get; set; }
+    [HideInInspector] public bool isCrawl;
 
     private float currentTimerStopMovementHit;
 
@@ -50,7 +59,9 @@ public class EnemyManager : MonoBehaviour
         if (enemyState == EnemyState.Death) return;
 
         StopMovementHitTimer();
+        CheckRoar();
     }
+
 
     public float GetPlayerDistance()
     {
@@ -61,6 +72,27 @@ public class EnemyManager : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, Mathf.Infinity, detectLayer);
         return hit.collider.CompareTag("Player");
+    }
+
+    private float lastRoarTime;
+    private float roarCooldown = 5f; // Intervalo de cooldown em segundos
+
+    private void CheckRoar()
+    {
+        if (SawPlayer() && canRoar && GetPlayerDistance() > 8)
+        {
+            canRoar = false;
+            SoundManager.PlayAudioClip(roarClip);
+            lastRoarTime = Time.time;
+        }
+        else if (!SawPlayer() && !canRoar)
+        {
+            if (!canRoar && Time.time - lastRoarTime > roarCooldown)
+            {
+                canRoar = true;
+            }
+        }
+
     }
 
     private void StopMovementHitTimer()
@@ -81,6 +113,16 @@ public class EnemyManager : MonoBehaviour
     {
         enemyAnimations.HitAnimation();
         currentTimerStopMovementHit = 0f;
+        SwitchColliders();
+    }
+
+    private void SwitchColliders()
+    {
+        if (isCrawl)
+        {
+            standColliders.SetActive(false);
+            crawlColliders.SetActive(true);
+        }
     }
 
     private void Death(object sender, EventArgs e)
@@ -89,7 +131,10 @@ public class EnemyManager : MonoBehaviour
         enemyAttack.enabled = false;
         enemyState = EnemyState.Death;
         rb.velocity = Vector2.zero;
-        GetComponent<CapsuleCollider2D>().enabled = false;
+        //GetComponent<CapsuleCollider2D>().enabled = false;
+        standColliders.SetActive(false);
+        crawlColliders.SetActive(false);
+
         transform.GetChild(0).GetComponent<CapsuleCollider2D>().enabled = false;
         Destroy(gameObject, 2f);
     }

@@ -81,6 +81,11 @@ public class EnemyMovement : MonoBehaviour
     #endregion
 
     #region Move
+    private float GetCurrentSpeed()
+    {
+        return enemyManager.isCrawl ? enemyManager.enemySO.CrawlSpeed : enemyManager.enemySO.Speed;
+    }
+
     private void MoveTowards(Vector2 direction)
     {
         float distanceTarget = Vector2.Distance(lastKnownTargetPosition, rb.position);
@@ -88,7 +93,8 @@ public class EnemyMovement : MonoBehaviour
 
         if (distanceTarget > distanceToStop)
         {
-            rb.velocity = direction * enemyManager.enemySO.Speed;
+            //rb.velocity = direction * enemyManager.enemySO.Speed;
+            rb.velocity = direction * GetCurrentSpeed();
 
             if (canRotate)
             {

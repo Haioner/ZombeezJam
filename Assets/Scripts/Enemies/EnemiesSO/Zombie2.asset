@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animOverride: {fileID: 22100000, guid: d77ac76ea311e65409cb9467dbf84dc2, type: 2}
   Speed: 2
+  CrawlSpeed: 1
   DistanceToStop: 1.1
+  CanCrawl: 1
   attackType: 1
   AttackDamage: 10
   AttackCooldown: 1

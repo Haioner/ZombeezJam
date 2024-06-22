@@ -47,7 +47,18 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject != owner.gameObject)
         {
-            if (collision.TryGetComponent(out HealthController healthController) && damageCount > 0)
+            HealthController healthController = collision.GetComponentInParent<HealthController>();
+            if (collision.CompareTag("Head"))
+            {
+                
+                // Insta-kill logic
+                if (healthController != null && damageCount > 0)
+                {
+                    healthController.HeadShotDamage(healthController.GetCurrentHealth());
+                    damageCount-= 10;
+                }
+            }
+            else if (healthController != null && damageCount > 0)
             {
                 healthController.TakeDamage(projectileDamage);
                 damageCount--;

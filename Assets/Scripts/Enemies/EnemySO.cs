@@ -14,7 +14,9 @@ public class EnemySO : ScriptableObject
 
     [Header("Movement")]
     public float Speed = 2f;
+    public float CrawlSpeed = 2f;
     public float DistanceToStop = 1.1f;
+    public bool CanCrawl = true;
 
     [Header("Attack")]
     public AttackType attackType;

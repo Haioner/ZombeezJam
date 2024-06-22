@@ -13,6 +13,7 @@ public class EnemyAnimations : MonoBehaviour
     {
         enemyManager = GetComponentInParent<EnemyManager>();
         anim = GetComponent<Animator>();
+        SetOverrideAnimation();
     }
 
     private void Update()
@@ -20,8 +21,14 @@ public class EnemyAnimations : MonoBehaviour
         UpdateAnimator();
     }
 
+    private void SetOverrideAnimation()
+    {
+        anim.runtimeAnimatorController = enemyManager.enemySO.animOverride;
+    }
+
     public void HitAnimation()
     {
+        CrawlCheck();
         anim.SetTrigger("Hit");
     }
 
@@ -47,5 +54,16 @@ public class EnemyAnimations : MonoBehaviour
     public void AttackEvent()
     {
         OnAttackEvent?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void CrawlCheck()
+    {
+        float currentHealth = enemyManager.healthController.GetCurrentHealth();
+        float maxHealth = enemyManager.healthController.GetMaxHealth();
+        if(currentHealth <= maxHealth/2 && enemyManager.enemySO.CanCrawl)
+        {
+            enemyManager.isCrawl = true;
+            anim.SetBool("Crawl", true);
+        }
     }
 }
