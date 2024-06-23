@@ -87,6 +87,8 @@ public class PlayerMovement : MonoBehaviour
         playerManager.RunFov(Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina);
     }
 
+    public void SubtractCurrentStamina(float amount) { currentStamina -= amount; }
+
     public float GetCurrentStamina()
     {
         return currentStamina;

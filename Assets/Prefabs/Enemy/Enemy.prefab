@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3124146710639975276}
   - component: {fileID: 4809810803172210734}
   - component: {fileID: 6148691162004473397}
+  - component: {fileID: 3228670201543862955}
+  - component: {fileID: 8049032487981077368}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -76,10 +78,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc57a4dabe5b2904cb6ed2ed170e4396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySO: {fileID: 0}
+  enemySO: {fileID: 11400000, guid: 392bd5267e03f9f4e8b6fbe1570689a7, type: 2}
   detectLayer:
     serializedVersion: 2
     m_Bits: 136
+  fadeGFXDOT: {fileID: 6653027797627869717}
+  fadeShadowDOT: {fileID: 450911486245149027}
   roarClip: {fileID: 8300000, guid: e88b254f5cad9b44e9752388a2d28df0, type: 3}
   standColliders: {fileID: 3357328913417592185}
   crawlColliders: {fileID: 466552165542873240}
@@ -130,11 +134,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 40
-  damageParticle: {fileID: 0}
-  damageClip: {fileID: 0}
+  blood: {fileID: 5559526679954615303, guid: 248f10986a04f494c998aa1741b498ae, type: 3}
+  damageParticle: {fileID: 8859832047107000643, guid: 8495282687045c743937d338559b8643, type: 3}
+  damageClip: {fileID: 8300000, guid: cebcdfc3693761d4786283018a92c102, type: 3}
+  headShotClip: {fileID: 8300000, guid: da18293b1d79fc84095d8780a3ce101d, type: 3}
   healParticle: {fileID: 0}
   healClip: {fileID: 0}
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
+  deathParticle: {fileID: 0}
+  deathClip: {fileID: 0}
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6148691162004473397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +159,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPivot: {fileID: 6198140315946271609}
+--- !u!114 &3228670201543862955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203895295590623940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3792816b344ca6948841b1ce50a6fb3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drops:
+  - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
+    DropChance: 40
+  - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
+    DropChance: 5
+--- !u!70 &8049032487981077368
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203895295590623940}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00000003498318, y: 0.05}
+  m_Size: {x: 1.0000001, y: 0.41308087}
+  m_Direction: 1
 --- !u!1 &383361729975906293
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +455,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6912426103701242941}
   - component: {fileID: 6306266022467593624}
+  - component: {fileID: 450911486245149027}
   m_Layer: 8
   m_Name: Shadow
   m_TagString: Untagged
@@ -466,6 +530,114 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &450911486245149027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4688016736382801117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0390bd8b8ffd640b34fe25065ff1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateType: 0
+  isSpeedBased: 0
+  hasOnStart: 0
+  hasOnPlay: 0
+  hasOnUpdate: 0
+  hasOnStepComplete: 0
+  hasOnComplete: 0
+  hasOnTweenCreated: 0
+  hasOnRewind: 0
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlay:
+    m_PersistentCalls:
+      m_Calls: []
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  onStepComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onRewind:
+    m_PersistentCalls:
+      m_Calls: []
+  targetIsSelf: 1
+  targetGO: {fileID: 0}
+  tweenTargetIsTargetGO: 1
+  delay: 1
+  duration: 1
+  easeType: 6
+  easeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loopType: 0
+  loops: 1
+  id: 
+  isRelative: 0
+  isFrom: 0
+  isIndependentUpdate: 0
+  autoKill: 1
+  autoGenerate: 1
+  isActive: 1
+  isValid: 1
+  target: {fileID: 6306266022467593624}
+  animationType: 7
+  targetType: 7
+  forcedTargetType: 0
+  autoPlay: 0
+  useTargetAsV3: 0
+  endValueFloat: 0
+  endValueV3: {x: 0, y: 0, z: 0}
+  endValueV2: {x: 0, y: 0}
+  endValueColor: {r: 1, g: 1, b: 1, a: 1}
+  endValueString: 
+  endValueRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  endValueTransform: {fileID: 0}
+  optionalBool0: 0
+  optionalBool1: 0
+  optionalFloat0: 0
+  optionalInt0: 0
+  optionalRotationMode: 0
+  optionalScrambleMode: 0
+  optionalShakeRandomnessMode: 0
+  optionalString: 
 --- !u!1 &4955499743027615309
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,10 +714,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6412954729324768413}
-  - component: {fileID: 3102202646116082026}
   - component: {fileID: 8392680555331007721}
   m_Layer: 8
-  m_Name: GFXHolder
+  m_Name: EnemyGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -571,41 +742,6 @@ Transform:
   - {fileID: 6198140315946271609}
   m_Father: {fileID: 2478496138862873373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &3102202646116082026
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6725430287381741498}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.00000003498318, y: 0.05}
-  m_Size: {x: 1.0000001, y: 0.41308087}
-  m_Direction: 1
 --- !u!210 &8392680555331007721
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -630,6 +766,7 @@ GameObject:
   - component: {fileID: 3764360156352430691}
   - component: {fileID: 5627561948067158957}
   - component: {fileID: 5468699479584468086}
+  - component: {fileID: 6653027797627869717}
   m_Layer: 8
   m_Name: GFX
   m_TagString: Untagged
@@ -737,3 +874,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db75f4a545611d45bb08d726b85441f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6653027797627869717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8033302711792559925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0390bd8b8ffd640b34fe25065ff1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateType: 0
+  isSpeedBased: 0
+  hasOnStart: 0
+  hasOnPlay: 0
+  hasOnUpdate: 0
+  hasOnStepComplete: 0
+  hasOnComplete: 0
+  hasOnTweenCreated: 0
+  hasOnRewind: 0
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlay:
+    m_PersistentCalls:
+      m_Calls: []
+  onUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  onStepComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onRewind:
+    m_PersistentCalls:
+      m_Calls: []
+  targetIsSelf: 1
+  targetGO: {fileID: 0}
+  tweenTargetIsTargetGO: 1
+  delay: 1
+  duration: 1
+  easeType: 6
+  easeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loopType: 0
+  loops: 1
+  id: 
+  isRelative: 0
+  isFrom: 0
+  isIndependentUpdate: 0
+  autoKill: 1
+  autoGenerate: 1
+  isActive: 1
+  isValid: 1
+  target: {fileID: 3764360156352430691}
+  animationType: 7
+  targetType: 7
+  forcedTargetType: 0
+  autoPlay: 0
+  useTargetAsV3: 0
+  endValueFloat: 0
+  endValueV3: {x: 0, y: 0, z: 0}
+  endValueV2: {x: 0, y: 0}
+  endValueColor: {r: 1, g: 1, b: 1, a: 1}
+  endValueString: 
+  endValueRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  endValueTransform: {fileID: 0}
+  optionalBool0: 0
+  optionalBool1: 0
+  optionalFloat0: 0
+  optionalInt0: 0
+  optionalRotationMode: 0
+  optionalScrambleMode: 0
+  optionalShakeRandomnessMode: 0
+  optionalString: 

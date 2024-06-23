@@ -5171,11 +5171,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91aeb7168c95f1042ac64d3fb6f477b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMaxRandomAmmo: {x: 1, y: 10}
-  ammoText: {fileID: 6384540904630344604}
+  minMaxRandomValue: {x: 2, y: 10}
+  worldText: {fileID: 6384540904630344604}
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
-  ammoClip: {fileID: 8300000, guid: d2aec560905520a4882a5b94eceec22d, type: 3}
-  audioVolume: 0.008
+  floatMessage: '<sprite=4> '
+  collectClip: {fileID: 8300000, guid: 5081f47611910db41b6f88ad24d89ad9, type: 3}
+  audioVolume: 1
 --- !u!61 &5420872533876154238
 BoxCollider2D:
   m_ObjectHideFlags: 0

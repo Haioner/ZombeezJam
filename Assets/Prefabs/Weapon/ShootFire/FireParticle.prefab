@@ -4900,7 +4900,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7713275279108379921}
   - component: {fileID: 9125379076410580922}
-  - component: {fileID: 3263443736748396991}
   - component: {fileID: 3122261579126934578}
   m_Layer: 0
   m_Name: Light 2D
@@ -4974,19 +4973,6 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!114 &3263443736748396991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5740790252823716045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11460cef58d9264280a2cf5a232dfcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  light2D: {fileID: 9125379076410580922}
 --- !u!58 &3122261579126934578
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5021,4 +5007,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.16196242

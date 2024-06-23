@@ -93,7 +93,6 @@ public class EnemyMovement : MonoBehaviour
 
         if (distanceTarget > distanceToStop)
         {
-            //rb.velocity = direction * enemyManager.enemySO.Speed;
             rb.velocity = direction * GetCurrentSpeed();
 
             if (canRotate)

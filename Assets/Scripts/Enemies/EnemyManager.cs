@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 [Serializable]
 public enum EnemyState
@@ -12,9 +13,15 @@ public class EnemyManager : MonoBehaviour
     public EnemySO enemySO;
     [SerializeField] private LayerMask detectLayer;
 
+    [Header("Fade")]
+    [SerializeField] private DOTweenAnimation fadeGFXDOT; 
+    [SerializeField] private DOTweenAnimation fadeShadowDOT; 
+
     [Header("Roar")]
     [SerializeField] private AudioClip roarClip;
     private bool canRoar = true;
+    private float lastRoarTime;
+    private float roarCooldown = 5f;
 
     [Header("Colliders")]
     [SerializeField] private GameObject standColliders;
@@ -74,12 +81,9 @@ public class EnemyManager : MonoBehaviour
         return hit.collider.CompareTag("Player");
     }
 
-    private float lastRoarTime;
-    private float roarCooldown = 5f; // Intervalo de cooldown em segundos
-
     private void CheckRoar()
     {
-        if (SawPlayer() && canRoar && GetPlayerDistance() > 8)
+        if (SawPlayer() && canRoar && GetPlayerDistance() > 1 && GetPlayerDistance() < 20)
         {
             canRoar = false;
             SoundManager.PlayAudioClip(roarClip);
@@ -127,15 +131,17 @@ public class EnemyManager : MonoBehaviour
 
     private void Death(object sender, EventArgs e)
     {
+        GetComponent<ItemDropper>().DropCollectables();
+        fadeGFXDOT.DORestart();
+        fadeShadowDOT.DORestart();
         enemyMovement.enabled = false;
         enemyAttack.enabled = false;
         enemyState = EnemyState.Death;
         rb.velocity = Vector2.zero;
-        //GetComponent<CapsuleCollider2D>().enabled = false;
         standColliders.SetActive(false);
         crawlColliders.SetActive(false);
 
-        transform.GetChild(0).GetComponent<CapsuleCollider2D>().enabled = false;
+        transform.GetComponent<CapsuleCollider2D>().enabled = false;
         Destroy(gameObject, 2f);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -25,4 +26,7 @@ public class EnemySO : ScriptableObject
     public float AttackRange = 5f;
     public AudioClip AttackClip;
     public Projectile AttackProjectile;
+
+    [Header("Drops")]
+    public List<Drops> drops = new List<Drops>();
 }

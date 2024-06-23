@@ -1,6 +1,8 @@
 using Cinemachine;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -16,9 +18,12 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Health")]
     public float MaxHealth = 100f;
+    public Volume hitVolume;
+    private float currentHitTimer;
 
     [Header("Weapon")]
     public WeaponController weaponController;
+    public float MeeleDamage = 10f;
 
     [Header("Animation")]
     public Animator anim;
@@ -32,16 +37,39 @@ public class PlayerManager : MonoBehaviour
         healthController = GetComponent<HealthController>();
 
         healthController.OnDeath += Death;
+        healthController.OnDamaged += OnHit;
     }
 
     private void OnDisable()
     {
         healthController.OnDeath -= Death;
+        healthController.OnDamaged += OnHit;
     }
 
     private void Update()
     {
         UpdateWeaponAnim();
+        HitVolumeTimer();
+    }
+
+    private void OnHit(object sender, EventArgs e)
+    {
+        hitVolume.weight = 1;
+        CinemachineShake.instance.ShakeCamera(2f, 0.1f);
+        currentHitTimer = 0;
+    }
+
+    private void HitVolumeTimer()
+    {
+        if (currentHitTimer < 0.07f)
+        {
+            currentHitTimer += Time.deltaTime;
+        }
+        else
+        {
+            hitVolume.weight = 0;
+        }
+
     }
 
     private void LightWeaponPos(Vector3 position)
@@ -77,6 +105,7 @@ public class PlayerManager : MonoBehaviour
     {
         playerMovement.enabled = false;
         weaponController.gameObject.SetActive(false);
+        lightTransform.gameObject.SetActive(false);
         anim.Play("Death");
     }
 }

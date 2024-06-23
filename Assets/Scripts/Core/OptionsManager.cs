@@ -20,6 +20,9 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private TextMeshProUGUI musicText;
     [Space]
+    [SerializeField] private Slider shootSlider;
+    [SerializeField] private TextMeshProUGUI shootText;
+    [Space]
     [SerializeField] private Slider soundSlider;
     [SerializeField] private TextMeshProUGUI soundText;
 
@@ -31,6 +34,7 @@ public class OptionsManager : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         LoadMusic();
         LoadSound();
+        LoadShoot();
     }
 
     private void Update()
@@ -75,6 +79,7 @@ public class OptionsManager : MonoBehaviour
         TransitionController.instance.TransitionToSceneName("Menu");
     }
 
+    //Music
     private void LoadMusic()
     {
         if (PlayerPrefs.HasKey("MVolume"))
@@ -87,11 +92,12 @@ public class OptionsManager : MonoBehaviour
 
     public void UpdateMusicVolume(float value)
     {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 40);
         PlayerPrefs.SetFloat("MVolume", value);
         musicText.text = value.ToString("F2");
     }
 
+    //Sound
     private void LoadSound()
     {
         if (PlayerPrefs.HasKey("SVolume"))
@@ -104,8 +110,30 @@ public class OptionsManager : MonoBehaviour
 
     public void UpdateSoundVolume(float value)
     {
-        audioMixer.SetFloat("SoundVolume", Mathf.Log10(value) * 20);
+        audioMixer.SetFloat("SoundVolume", Mathf.Log10(value) * 40);
         PlayerPrefs.SetFloat("SVolume", value);
         soundText.text = value.ToString("F2");
+    }
+
+    //Shoot
+    private void LoadShoot()
+    {
+        if (PlayerPrefs.HasKey("ShVolume"))
+        {
+            float keyValue = PlayerPrefs.GetFloat("ShVolume");
+            shootSlider.value = keyValue;
+            shootText.text = keyValue.ToString("F2");
+        }
+        else
+        {
+
+        }
+    }
+
+    public void UpdateShootVolume(float value)
+    {
+        audioMixer.SetFloat("ShootVolume", Mathf.Log10(value) * 40);
+        PlayerPrefs.SetFloat("ShVolume", value);
+        shootText.text = value.ToString("F2");
     }
 }

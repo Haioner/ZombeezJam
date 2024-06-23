@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,9 @@ public class WeaponCanvas : MonoBehaviour
     [SerializeField] private TextMeshProUGUI inventoryBulletsText;
     [SerializeField] private Image weaponIcon;
     [SerializeField] private Image weaponFill;
+
+    [Header("DOT")]
+    [SerializeField] private DOTweenAnimation currentBulletsDOT;
 
     private float currentReloadCooldown;
 
@@ -44,6 +48,7 @@ public class WeaponCanvas : MonoBehaviour
         weaponIcon.sprite = weaponController.weaponSO.WeaponSprite;
         weaponFill.sprite = weaponController.weaponSO.WeaponSprite;
 
+        currentBulletsDOT.DORestart();
         currentBulletsText.text = $"{weaponController.currentBullets}";
         inventoryBulletsText.text = $"<sprite=0>{weaponController.inventoryBullets}";
 

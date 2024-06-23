@@ -69,7 +69,10 @@ public class EnemyAttack : MonoBehaviour
         if (playerHealth == null)
             playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
 
-        Vector2 directionToPlayer = (playerHealth.transform.position - attackPivot.position).normalized;
+        Vector2 targetPosition = playerHealth.transform.position;
+        targetPosition.y += 0.8f;
+
+        Vector2 directionToPlayer = (targetPosition - (Vector2)attackPivot.position).normalized;
         float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
         SpawnProjectile(angle);
     }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HealthController : MonoBehaviour, IDamage
 {
@@ -8,8 +9,10 @@ public class HealthController : MonoBehaviour, IDamage
     private float currentHealth;
 
     [Header("Damage")]
+    [SerializeField] private Blood blood;
     [SerializeField] private GameObject damageParticle;
     [SerializeField] private AudioClip damageClip;
+    [SerializeField] private AudioClip headShotClip;
     public event EventHandler OnDamaged;
     public event EventHandler OnDeath;
 
@@ -19,6 +22,11 @@ public class HealthController : MonoBehaviour, IDamage
 
     [Header("FloatNumber")]
     [SerializeField] private FloatNumber floatNumberPrefab;
+
+    [Header("Death")]
+    [SerializeField] private ParticleSystem deathParticle;
+    [SerializeField] private AudioClip deathClip;
+    [SerializeField] private UnityEvent DeathEvent;
 
     public float GetCurrentHealth() { return currentHealth; }
     public float GetMaxHealth() { return maxHealth; }
@@ -49,19 +57,21 @@ public class HealthController : MonoBehaviour, IDamage
         {
             InstantiateFloatNumber(damageValue, Color.white);
             currentHealth -= damageValue;
-            Vector3 spawnPosition = transform.position;
-            spawnPosition.y += 1f;
-            Instantiate(damageParticle, spawnPosition, Quaternion.identity);
+            //Vector3 spawnPosition = transform.position;
+            //spawnPosition.y += 1f;
+            //Instantiate(damageParticle, spawnPosition, Quaternion.identity);
 
             SoundManager.PlayAudioClipVolume(damageClip, 1f);
-            OnDamaged?.Invoke(this, EventArgs.Empty);
+            //OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 
-        if(currentHealth <= 0)
-        {
-            CheckDeath();
-            currentHealth = 0;
-        }
+        Damaged();
+
+        //if(currentHealth <= 0)
+        //{
+        //    CheckDeath();
+        //    currentHealth = 0;
+        //}
     }
 
     public void HeadShotDamage(float damageValue)
@@ -71,11 +81,26 @@ public class HealthController : MonoBehaviour, IDamage
             InstantiateFloatNumber("Head Shot!", Color.red);
 
             currentHealth -= damageValue;
-            Vector3 spawnPosition = transform.position;
-            spawnPosition.y += 1f;
-            Instantiate(damageParticle, spawnPosition, Quaternion.identity);
+            //Vector3 spawnPosition = transform.position;
+            //spawnPosition.y += 1f;
+            //Instantiate(damageParticle, spawnPosition, Quaternion.identity);
 
-            SoundManager.PlayAudioClipVolume(damageClip, 1f);
+            SoundManager.PlayAudioClip(headShotClip, UnityEngine.Random.Range(0.8f,1f));
+            //OnDamaged?.Invoke(this, EventArgs.Empty);
+        }
+
+        Damaged();
+        //if (currentHealth <= 0)
+        //{
+        //    CheckDeath();
+        //    currentHealth = 0;
+        //}
+    }
+
+    private void Damaged()
+    {
+        if (currentHealth > 0)
+        {
             OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -84,10 +109,26 @@ public class HealthController : MonoBehaviour, IDamage
             CheckDeath();
             currentHealth = 0;
         }
+
+        Vector3 spawnPosition = transform.position;
+        spawnPosition.y += 1f;
+
+        if (damageParticle != null)
+            Instantiate(damageParticle, spawnPosition, Quaternion.identity);
+
+        if (blood != null)
+            Instantiate(blood, transform.position, Quaternion.identity);
     }
 
     private void CheckDeath()
     {
+        if(deathParticle != null)
+            Instantiate(deathParticle, transform.position, Quaternion.identity);
+
+        if (deathClip != null)
+            SoundManager.PlayAudioClip(deathClip, UnityEngine.Random.Range(0.8f, 1f));
+
+        DeathEvent?.Invoke();
         OnDeath?.Invoke(this, EventArgs.Empty);
     }
 

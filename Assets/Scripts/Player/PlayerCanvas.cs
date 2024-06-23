@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class PlayerCanvas : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private float progressSpeed;
 
     [Header("Stamina")]
@@ -39,6 +41,7 @@ public class PlayerCanvas : MonoBehaviour
     {
         if (healthController == null) return;
 
+        healthText.text = healthController.GetCurrentHealth().ToString("F0") + "/" + healthController.GetMaxHealth().ToString("F0");
         healthSlider.value = Mathf.MoveTowards(healthSlider.value, healthController.GetCurrentHealth(), SpeedProgress());
     }
 

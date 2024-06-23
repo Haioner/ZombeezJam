@@ -23,3 +23,8 @@ MonoBehaviour:
   AttackRange: 5
   AttackClip: {fileID: 8300000, guid: 5ce351fa84882f246aff39671c4189a9, type: 3}
   AttackProjectile: {fileID: 3848546295560872535, guid: 619ac243b5f7f6a4b957dd6ac55c3a67, type: 3}
+  drops:
+  - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
+    DropChance: 35
+  - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
+    DropChance: 30

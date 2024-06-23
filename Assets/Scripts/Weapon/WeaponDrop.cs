@@ -67,7 +67,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     private int GetRandomTier()
     {
         float randomValue = Random.value;
-        return randomValue < 0.8f ? 1 : randomValue < 0.95f ? 2 : 3;
+        return randomValue < 0.85f ? 1 : randomValue < 0.98f ? 2 : 3;
     }
 
     private float GetRandomStats(bool moreIsGood, float initialValue)

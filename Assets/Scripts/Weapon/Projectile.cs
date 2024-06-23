@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
         GetComponent<CircleCollider2D>().excludeLayers = LayerMask.GetMask(LayerMask.LayerToName(owner.layer));
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CalculateMovement();
     }
@@ -68,4 +68,19 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject != owner.gameObject)
+    //    {
+    //        HealthController healthController = collision.gameObject.GetComponentInParent<HealthController>();
+    //        if (healthController != null && damageCount > 0)
+    //        {
+    //            healthController.TakeDamage(projectileDamage);
+    //            damageCount--;
+    //        }
+    //        Instantiate(hitParticle, transform.position, Quaternion.identity);
+    //        Destroy(gameObject);
+    //    }
+    //}
 }
