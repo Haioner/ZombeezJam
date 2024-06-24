@@ -13,12 +13,14 @@ public class RoomDestroyer : MonoBehaviour
 
     private void CheckDistance()
     {
-        if(PlayerIsBetween(40,70))
+        if (player.position.x < transform.position.x) return;
+
+        if(PlayerIsBetween(100,150))
         {
             if (preventBackCollider != null)
                 preventBackCollider.SetActive(true);
         }
-        else if(PlayerIsBetween(70, Mathf.Infinity))
+        else if(PlayerIsBetween(150, Mathf.Infinity))
         {
             Destroy(gameObject);
         }

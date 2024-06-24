@@ -74,7 +74,7 @@ public class HealthController : MonoBehaviour, IDamage
         {
             InstantiateFloatNumber("Head Shot!", Color.red);
             currentHealth -= damageValue;
-            SoundManager.PlayAudioClip(headShotClip, UnityEngine.Random.Range(0.8f,1f));
+            SoundManager.PlayHeadShotClip(headShotClip, UnityEngine.Random.Range(0.8f,1f));
         }
 
         Damaged();

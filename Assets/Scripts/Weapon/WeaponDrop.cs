@@ -83,7 +83,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
         float tier1Threshold = 0.85f - (currentRoom * 0.015f);
         float tier2Threshold = 0.98f - (currentRoom * 0.015f);
-        Debug.Log(randomValue);
+
         if (isSafeRoom)
         {
             if (currentRoom >= 20 && currentRoom < 30)

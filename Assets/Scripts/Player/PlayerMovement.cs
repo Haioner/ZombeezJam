@@ -66,14 +66,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleRunning()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina)
+        if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina && rb.velocity.magnitude > 0)
         {
             currentSpeed = playerManager.RunSpeed;
             currentStamina -= Time.deltaTime * playerManager.StaminaSpeed;
         }
         else if (currentStamina < playerManager.MaxStamina)
         {
-            currentStamina += Time.deltaTime * (playerManager.StaminaSpeed / 2);
+            currentStamina += Time.deltaTime * (playerManager.StaminaSpeed / 1.2f);
             currentSpeed = playerManager.WalkSpeed;
         }
 

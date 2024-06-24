@@ -64,7 +64,10 @@ public class RoomController : MonoBehaviour
         }
         else
         {
-            int randRoom = Random.Range(0, roomListSO.rooms.Count);
+            int maxRoom = GameManager.instance.CurrentRoom + 2 < roomListSO.rooms.Count ? GameManager.instance.CurrentRoom + 2 : roomListSO.rooms.Count;
+            int minRoom = GameManager.instance.CurrentRoom - 1 < maxRoom && maxRoom - 4 >= 0 ? maxRoom - 4 : 0;
+            int randRoom = Random.Range(minRoom, maxRoom);
+
             Instantiate(roomListSO.rooms[randRoom], endPoint.position, Quaternion.identity);
         }
     }
