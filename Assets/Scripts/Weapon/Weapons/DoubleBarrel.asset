@@ -15,12 +15,12 @@ MonoBehaviour:
   itemHandType: 0
   WeaponSprite: {fileID: 21300000, guid: 6ad4a15ba228cf14bae24c4c65f2861c, type: 3}
   WeaponOutlineSprite: {fileID: 21300000, guid: 9cd0c6148b92e2e469a5abd4936dd92c, type: 3}
-  Spread: 10
+  Spread: 15
   Rate: 2.25
   CartridgeAmount: 2
   ReloadCooldown: 2
-  BulletsPerShoot: 8
-  BulletDamage: 4
+  BulletsPerShoot: 3
+  BulletDamage: 1
   BulletPrefab: {fileID: 3789469736030190664, guid: 26ac6495c8a6b9d4bb219fd1131cd7ee, type: 3}
   RandShootPitch: {x: 0.5, y: 0.55}
   ShootClip: {fileID: 8300000, guid: 69c4539348f679141b132525bafc31fd, type: 3}

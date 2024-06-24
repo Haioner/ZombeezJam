@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class CanvasWeaponStatistics
@@ -16,8 +17,12 @@ public class CanvasWeaponStatistics
 
 public class WeaponDrop : MonoBehaviour, IInteractable
 {
+    [Header("Safe Room")]
+    [SerializeField] private bool isSafeRoom;
+
     [Header("Weapon")]
-    [SerializeField] private WeaponSO weaponSO;
+    [SerializeField] private List<WeaponSO> weaponsList = new List<WeaponSO>();
+    [SerializeField] private WeaponSO currentWeaponSO;
     [SerializeField] private SpriteRenderer spriteRenderer;
     public bool IsNearest { get; set; }
 
@@ -41,6 +46,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     {
         audioSource = GetComponent<AudioSource>();
 
+        RandomizeWeaponDrop();
         UpdateSprite();
         RandBullets();
         RandStatistics();
@@ -52,22 +58,45 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         StatsCanvas();
     }
 
+    private void RandomizeWeaponDrop()
+    {
+        int randWeapon = Random.Range(0, weaponsList.Count);
+        currentWeaponSO = weaponsList[randWeapon];
+    }
+
     #region Statistics
     private void RandStatistics()
     {
         statistics.WeaponTier = GetRandomTier();
 
-        statistics.Damage = GetRandomStats(true, weaponSO.BulletDamage);
-        statistics.Spread = GetRandomStats(false, weaponSO.Spread);
-        statistics.Rate = GetRandomStats(true, weaponSO.Rate);
-        statistics.AmmoAmount = GetIntRandomStats(true, weaponSO.CartridgeAmount);
-        statistics.ReloadTime = GetRandomStats(false, weaponSO.ReloadCooldown);
+        statistics.Damage = GetRandomStats(true, currentWeaponSO.BulletDamage);
+        statistics.Spread = GetRandomStats(false, currentWeaponSO.Spread);
+        statistics.Rate = GetRandomStats(true, currentWeaponSO.Rate);
+        statistics.AmmoAmount = GetIntRandomStats(true, currentWeaponSO.CartridgeAmount);
+        statistics.ReloadTime = GetRandomStats(false, currentWeaponSO.ReloadCooldown);
     }
 
     private int GetRandomTier()
     {
+        int currentRoom = GameManager.instance.CurrentRoom;
         float randomValue = Random.value;
-        return randomValue < 0.85f ? 1 : randomValue < 0.98f ? 2 : 3;
+
+        float tier1Threshold = 0.85f - (currentRoom * 0.015f);
+        float tier2Threshold = 0.98f - (currentRoom * 0.015f);
+        Debug.Log(randomValue);
+        if (isSafeRoom)
+        {
+            if (currentRoom >= 20 && currentRoom < 30)
+                return randomValue < 0.50f ? 1 : randomValue < 0.95f ? 2 : 3;
+
+            else if (currentRoom >= 30)
+                return randomValue < 0.20f ? 1 : randomValue < 0.70f ? 2 : 3;
+
+            else
+                return randomValue < tier1Threshold ? 1 : randomValue < tier2Threshold ? 2 : 3;
+        }
+        else
+            return randomValue < tier1Threshold ? 1 : randomValue < tier2Threshold ? 2 : 3;
     }
 
     private float GetRandomStats(bool moreIsGood, float initialValue)
@@ -102,7 +131,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
     private void RandBullets()
     {
-        int randCurrent = Random.Range(0, weaponSO.CartridgeAmount);
+        int randCurrent = Random.Range(0, currentWeaponSO.CartridgeAmount);
         currentBullets = randCurrent;
 
         int randInventory = Random.Range(0, 30);
@@ -111,7 +140,7 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
     private void UpdateStatisticsUI()
     {
-        float thisDamageMultipliedByBullets = statistics.Damage * weaponSO.BulletsPerShoot;
+        float thisDamageMultipliedByBullets = statistics.Damage * currentWeaponSO.BulletsPerShoot;
         float weaponDamageMultipliedByBullets = weaponController.statistics.Damage * weaponController.weaponSO.BulletsPerShoot;
         int totalWeaponAmmo = weaponController.inventoryBullets + weaponController.currentBullets;
 
@@ -180,9 +209,9 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
     private void UpdateSprite()
     {
-        spriteRenderer.sprite = weaponSO.WeaponSprite;
+        spriteRenderer.sprite = currentWeaponSO.WeaponSprite;
 
-        if (weaponSO.itemHandType == ItemHandType.Single)
+        if (currentWeaponSO.itemHandType == ItemHandType.Single)
             spriteRenderer.transform.localPosition = new Vector3(0.275f, 0.133f, 0);
         else
             spriteRenderer.transform.localPosition = new Vector3(0.561f, 0.033f, 0);
@@ -193,26 +222,26 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     private void Outline()
     {
         if (IsNearest)
-            spriteRenderer.sprite = weaponSO.WeaponOutlineSprite;
+            spriteRenderer.sprite = currentWeaponSO.WeaponOutlineSprite;
         else
-            spriteRenderer.sprite = weaponSO.WeaponSprite;
+            spriteRenderer.sprite = currentWeaponSO.WeaponSprite;
     }
 
     public void Interact()
     {
-        audioSource.PlayOneShot(weaponSO.EndReloadClip);
+        audioSource.PlayOneShot(currentWeaponSO.EndReloadClip);
 
         if (weaponController == null)
             weaponController = FindObjectOfType<WeaponController>();
 
         //Save drop info
-        WeaponSO lastWeapon = weaponSO;
+        WeaponSO lastWeapon = currentWeaponSO;
         int lastCurrentBullets = currentBullets;
         int lastInventoryBullets = inventoryBullets;
         WeaponStatistics lastStatistics = statistics;
 
         //Change this drop
-        weaponSO = weaponController.weaponSO;
+        currentWeaponSO = weaponController.weaponSO;
         currentBullets = weaponController.currentBullets;
         inventoryBullets = weaponController.inventoryBullets;
         statistics = weaponController.statistics;

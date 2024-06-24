@@ -9,7 +9,6 @@ public class LightPulsing : MonoBehaviour
 
     private Light2D light2D;
     private float timer;
-    private bool increasingIntensity = true;
 
     private void Start()
     {

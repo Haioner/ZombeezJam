@@ -3564,7 +3564,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c733faab688214ab9ccc8ff320fab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSO: {fileID: 11400000, guid: 17a77a1a66176c4449efd293b4d33554, type: 2}
+  weaponsList:
+  - {fileID: 11400000, guid: 9e3eed71c8280d748984b9485bcf1cb4, type: 2}
+  - {fileID: 11400000, guid: 73ccbb232ee133e438a81321aceb5096, type: 2}
+  - {fileID: 11400000, guid: f2cd60ebadd419b4d90c00e72c49b415, type: 2}
+  - {fileID: 11400000, guid: 502dab8617f0377438ae75cd5e87d679, type: 2}
+  - {fileID: 11400000, guid: 479c2f011d48d6c4c92e1e2e7fa47407, type: 2}
+  - {fileID: 11400000, guid: 0ce627b09a2e23749b8d72686bdcebe5, type: 2}
+  - {fileID: 11400000, guid: d5e928bce6aabaf48ba5463dc52f2c63, type: 2}
+  - {fileID: 11400000, guid: 4bd683283bb7be449a17ab79d73ddabc, type: 2}
+  - {fileID: 11400000, guid: 17a77a1a66176c4449efd293b4d33554, type: 2}
+  currentWeaponSO: {fileID: 0}
   spriteRenderer: {fileID: 2973018832501914196}
   statistics:
     WeaponTier: 0

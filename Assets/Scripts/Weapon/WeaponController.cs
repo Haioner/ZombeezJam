@@ -51,6 +51,7 @@ public class WeaponController : MonoBehaviour
         playerObject = GetComponentInParent<PlayerManager>().gameObject;
         optionsManager = FindObjectOfType<OptionsManager>();
 
+        InitStatistics();
         SetWeaponSprite();
         OnBulletChanged?.Invoke(this, System.EventArgs.Empty);
     }
@@ -67,6 +68,15 @@ public class WeaponController : MonoBehaviour
     private void FixedUpdate()
     {
         SpinByRate();
+    }
+
+    private void InitStatistics()
+    {
+        statistics.Spread = weaponSO.Spread;
+        statistics.Rate = weaponSO.Rate;
+        statistics.AmmoAmount = weaponSO.CartridgeAmount;
+        statistics.ReloadTime = weaponSO.ReloadCooldown;
+        statistics.Damage = weaponSO.BulletDamage;
     }
 
     public void AddInventoryAmmo(int amount)

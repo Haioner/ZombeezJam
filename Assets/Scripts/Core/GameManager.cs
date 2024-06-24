@@ -1,14 +1,40 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private int wave;
+    public static GameManager instance;
+    public int CurrentRoom { get; private set; }
 
-    public void AddWave()
+    [Header("Room UI")]
+    [SerializeField] private TextMeshProUGUI roomText;
+    [SerializeField] private DOTweenAnimation roomAnimation;
+    [SerializeField] private DOTweenAnimation cleanAnimation;
+
+    private void Awake()
     {
-        wave++;
+        instance = this;
     }
 
+    public void AddCurrentRoom()
+    {
+        CurrentRoom++;
+    }
+
+    public void CleanText()
+    {
+        if (!cleanAnimation.gameObject.activeInHierarchy)
+            cleanAnimation.gameObject.SetActive(true);
+        cleanAnimation.gameObject.transform.parent.transform.localScale = Vector3.one;
+        cleanAnimation.DORestart();
+    }
+
+    public void NextRoomText()
+    {
+        roomText.text = "Room " + CurrentRoom.ToString();
+        roomAnimation.DORestart();
+    }
 }

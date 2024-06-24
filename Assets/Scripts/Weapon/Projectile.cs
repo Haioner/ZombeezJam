@@ -50,11 +50,10 @@ public class Projectile : MonoBehaviour
             HealthController healthController = collision.GetComponentInParent<HealthController>();
             if (collision.CompareTag("Head"))
             {
-                
-                // Insta-kill logic
+                // Head Shot!
                 if (healthController != null && damageCount > 0)
                 {
-                    healthController.HeadShotDamage(healthController.GetCurrentHealth());
+                    healthController.HeadShotDamage(projectileDamage * 25);
                     damageCount-= 10;
                 }
             }
@@ -68,19 +67,4 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject != owner.gameObject)
-    //    {
-    //        HealthController healthController = collision.gameObject.GetComponentInParent<HealthController>();
-    //        if (healthController != null && damageCount > 0)
-    //        {
-    //            healthController.TakeDamage(projectileDamage);
-    //            damageCount--;
-    //        }
-    //        Instantiate(hitParticle, transform.position, Quaternion.identity);
-    //        Destroy(gameObject);
-    //    }
-    //}
 }

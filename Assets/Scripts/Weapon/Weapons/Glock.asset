@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponSprite: {fileID: 21300000, guid: 8737afb477582594db883369ef334166, type: 3}
   WeaponOutlineSprite: {fileID: 21300000, guid: c2ae5c220927ffb46ab6586359642ccb, type: 3}
   Spread: 6
-  Rate: 5
+  Rate: 3
   CartridgeAmount: 20
   ReloadCooldown: 1.7
   BulletsPerShoot: 1

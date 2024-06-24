@@ -81,7 +81,7 @@ MonoBehaviour:
   enemySO: {fileID: 11400000, guid: 392bd5267e03f9f4e8b6fbe1570689a7, type: 2}
   detectLayer:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 138
   fadeGFXDOT: {fileID: 6653027797627869717}
   fadeShadowDOT: {fileID: 450911486245149027}
   roarClip: {fileID: 8300000, guid: e88b254f5cad9b44e9752388a2d28df0, type: 3}
@@ -138,6 +138,9 @@ MonoBehaviour:
   damageParticle: {fileID: 8859832047107000643, guid: 8495282687045c743937d338559b8643, type: 3}
   damageClip: {fileID: 8300000, guid: cebcdfc3693761d4786283018a92c102, type: 3}
   headShotClip: {fileID: 8300000, guid: da18293b1d79fc84095d8780a3ce101d, type: 3}
+  DamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   healParticle: {fileID: 0}
   healClip: {fileID: 0}
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
@@ -171,11 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3792816b344ca6948841b1ce50a6fb3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drops:
-  - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
-    DropChance: 40
-  - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
-    DropChance: 5
+  drops: []
 --- !u!70 &8049032487981077368
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

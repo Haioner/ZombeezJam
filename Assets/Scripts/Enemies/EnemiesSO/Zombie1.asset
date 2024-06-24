@@ -25,6 +25,8 @@ MonoBehaviour:
   AttackProjectile: {fileID: 0}
   drops:
   - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
-    DropChance: 35
+    DropChance: 15
   - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
-    DropChance: 30
+    DropChance: 2
+  - dropPrefab: {fileID: 5173873797357163941, guid: 35af6df440cbc0e4793f591045e4b9ce, type: 3}
+    DropChance: 0.5

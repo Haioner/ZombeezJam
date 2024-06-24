@@ -13,6 +13,7 @@ public class HealthController : MonoBehaviour, IDamage
     [SerializeField] private GameObject damageParticle;
     [SerializeField] private AudioClip damageClip;
     [SerializeField] private AudioClip headShotClip;
+    [SerializeField] private UnityEvent DamageEvent;
     public event EventHandler OnDamaged;
     public event EventHandler OnDeath;
 
@@ -30,9 +31,13 @@ public class HealthController : MonoBehaviour, IDamage
 
     public float GetCurrentHealth() { return currentHealth; }
     public float GetMaxHealth() { return maxHealth; }
-    public void SetNewMaxHealth(float maxHealthValue) => maxHealth = maxHealthValue;
+    public void SetNewMaxHealth(float maxHealthValue)
+    {
+        maxHealth = maxHealthValue;
+        currentHealth = maxHealth;
+    }
 
-    private void Start()
+    private void Awake()
     {
         currentHealth = maxHealth;
     }
@@ -57,21 +62,10 @@ public class HealthController : MonoBehaviour, IDamage
         {
             InstantiateFloatNumber(damageValue, Color.white);
             currentHealth -= damageValue;
-            //Vector3 spawnPosition = transform.position;
-            //spawnPosition.y += 1f;
-            //Instantiate(damageParticle, spawnPosition, Quaternion.identity);
-
             SoundManager.PlayAudioClipVolume(damageClip, 1f);
-            //OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 
         Damaged();
-
-        //if(currentHealth <= 0)
-        //{
-        //    CheckDeath();
-        //    currentHealth = 0;
-        //}
     }
 
     public void HeadShotDamage(float damageValue)
@@ -79,28 +73,18 @@ public class HealthController : MonoBehaviour, IDamage
         if (currentHealth > 0)
         {
             InstantiateFloatNumber("Head Shot!", Color.red);
-
             currentHealth -= damageValue;
-            //Vector3 spawnPosition = transform.position;
-            //spawnPosition.y += 1f;
-            //Instantiate(damageParticle, spawnPosition, Quaternion.identity);
-
             SoundManager.PlayAudioClip(headShotClip, UnityEngine.Random.Range(0.8f,1f));
-            //OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 
         Damaged();
-        //if (currentHealth <= 0)
-        //{
-        //    CheckDeath();
-        //    currentHealth = 0;
-        //}
     }
 
     private void Damaged()
     {
         if (currentHealth > 0)
         {
+            DamageEvent?.Invoke();
             OnDamaged?.Invoke(this, EventArgs.Empty);
         }
 

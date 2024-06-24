@@ -10,10 +10,14 @@ public class Drops
 
 public class ItemDropper : MonoBehaviour
 {
-    [SerializeField] private List<Drops> drops = new List<Drops>();
+    public List<Drops> drops = new List<Drops>();
+    private bool hasDropped;
 
     public void DropCollectables()
     {
+        if (hasDropped) return;
+
+        hasDropped = true;
         float totalDropChance = 0f;
 
         foreach (var drop in drops)

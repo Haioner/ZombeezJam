@@ -36,10 +36,13 @@ public class EnemyManager : MonoBehaviour
     public Transform player { get; set; }
     [HideInInspector] public bool isCrawl;
 
+    private ItemDropper itemDropper;
     private float currentTimerStopMovementHit;
+    private RoomController currentRoom;
 
     private void Awake()
     {
+        itemDropper = GetComponent<ItemDropper>();
         healthController = GetComponent<HealthController>();
         enemyAnimations = GetComponentInChildren<EnemyAnimations>();
         enemyMovement = GetComponent<EnemyMovement>();
@@ -69,6 +72,13 @@ public class EnemyManager : MonoBehaviour
         CheckRoar();
     }
 
+    public void InitiateRandomEnemy(EnemySO newEnemySO, RoomController room)
+    {
+        enemySO = newEnemySO;
+        currentRoom = room;
+
+        itemDropper.drops = enemySO.drops;
+    }
 
     public float GetPlayerDistance()
     {
@@ -77,7 +87,11 @@ public class EnemyManager : MonoBehaviour
 
     public bool SawPlayer()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (player.position - transform.position).normalized, Mathf.Infinity, detectLayer);
+        Vector3 playerPos = Vector3.zero;
+        if(player != null)
+            playerPos = player.position;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (playerPos - transform.position).normalized, Mathf.Infinity, detectLayer);
         return hit.collider.CompareTag("Player");
     }
 
@@ -96,7 +110,6 @@ public class EnemyManager : MonoBehaviour
                 canRoar = true;
             }
         }
-
     }
 
     private void StopMovementHitTimer()
@@ -142,6 +155,7 @@ public class EnemyManager : MonoBehaviour
         crawlColliders.SetActive(false);
 
         transform.GetComponent<CapsuleCollider2D>().enabled = false;
+        currentRoom.RemoveEnemyFromList(this);
         Destroy(gameObject, 2f);
     }
 }

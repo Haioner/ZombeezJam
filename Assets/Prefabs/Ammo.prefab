@@ -5176,7 +5176,7 @@ MonoBehaviour:
   floatNumberPrefab: {fileID: 637990668109345914, guid: 621d9e26d825d2c438be971eaddc8821, type: 3}
   floatMessage: '<sprite=4> '
   collectClip: {fileID: 8300000, guid: 5081f47611910db41b6f88ad24d89ad9, type: 3}
-  audioVolume: 1
+  audioVolume: 0.5
 --- !u!61 &5420872533876154238
 BoxCollider2D:
   m_ObjectHideFlags: 0
