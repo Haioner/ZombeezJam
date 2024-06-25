@@ -19,6 +19,9 @@ public class EnemySO : ScriptableObject
     public float DistanceToStop = 1.1f;
     public bool CanCrawl = true;
 
+    [Header("Health")]
+    public float MaxHealth = 40;
+
     [Header("Attack")]
     public AttackType attackType;
     public float AttackDamage = 10f;

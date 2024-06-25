@@ -48,6 +48,7 @@ public class EnemyManager : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAttack = GetComponent<EnemyAttack>();
         rb = GetComponent<Rigidbody2D>();
+        healthController.SetNewMaxHealth(enemySO.MaxHealth);
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -155,7 +156,8 @@ public class EnemyManager : MonoBehaviour
         crawlColliders.SetActive(false);
 
         transform.GetComponent<CapsuleCollider2D>().enabled = false;
-        currentRoom.RemoveEnemyFromList(this);
+        if (currentRoom != null)
+            currentRoom.RemoveEnemyFromList(this);
         Destroy(gameObject, 2f);
     }
 }

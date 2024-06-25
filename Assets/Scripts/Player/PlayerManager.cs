@@ -9,7 +9,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Movement")]
     public CinemachineTargetGroup TargetGroup;
     public float WalkSpeed = 5f;
-    public float RunSpeed = 10f;
     public float MaxStamina = 100f;
     public float StaminaSpeed = 10f;
 
@@ -35,6 +34,7 @@ public class PlayerManager : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         healthController = GetComponent<HealthController>();
+        InitiateStats();
 
         healthController.OnDeath += Death;
         healthController.OnDamaged += OnHit;
@@ -50,6 +50,15 @@ public class PlayerManager : MonoBehaviour
     {
         UpdateWeaponAnim();
         HitVolumeTimer();
+    }
+
+    private void InitiateStats()
+    {
+        if (DataManager.instance == null) return;
+
+        WalkSpeed = DataManager.instance.gameData.characterStats.MaxSpeed;
+        MaxHealth = DataManager.instance.gameData.characterStats.MaxHealth;
+        healthController.SetNewMaxHealth(MaxHealth);
     }
 
     private void OnHit(object sender, EventArgs e)

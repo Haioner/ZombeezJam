@@ -94,9 +94,13 @@ public class RoomController : MonoBehaviour
     {
         if (!canSpawnEnemy) return;
 
-        int spawnCount = (int)Random.Range(
-            enemySpawner.EnemyCountRange.x + GameManager.instance.CurrentRoom,
-            enemySpawner.EnemyCountRange.y + GameManager.instance.CurrentRoom);
+        int minEnemySpawn = enemySpawner.EnemyCountRange.x + GameManager.instance.CurrentRoom > 10 ?
+            10 : (int)enemySpawner.EnemyCountRange.x + GameManager.instance.CurrentRoom;
+
+        int maxEnemySpawn = enemySpawner.EnemyCountRange.y + GameManager.instance.CurrentRoom > 30 ?
+            30 : (int)enemySpawner.EnemyCountRange.y + GameManager.instance.CurrentRoom;
+
+        int spawnCount = Random.Range(minEnemySpawn, maxEnemySpawn);
 
         for (int i = 0; i < spawnCount; i++)
         {

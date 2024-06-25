@@ -40,11 +40,13 @@ public class WeaponController : MonoBehaviour
     private AudioSource audioSource;
     private GameObject playerObject;
     private OptionsManager optionsManager;
+    private PlayerManager playerManager;
 
     private void Start()
     {
         reloadTime = statistics.ReloadTime;
 
+        playerManager = GetComponentInParent<PlayerManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rotateTowards = GetComponent<RotateTowardsMouse>();
         audioSource = GetComponent<AudioSource>();
@@ -73,7 +75,12 @@ public class WeaponController : MonoBehaviour
     private void InitStatistics()
     {
         statistics.Spread = weaponSO.Spread;
-        statistics.Rate = weaponSO.Rate;
+
+        float calculatedRate = weaponSO.Rate;
+        if (DataManager.instance != null)
+            calculatedRate *= DataManager.instance.gameData.characterStats.ShootRate;
+
+        statistics.Rate = calculatedRate;
         statistics.AmmoAmount = weaponSO.CartridgeAmount;
         statistics.ReloadTime = weaponSO.ReloadCooldown;
         statistics.Damage = weaponSO.BulletDamage;

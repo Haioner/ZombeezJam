@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4fd529ca09bd7b489292da1e8b949b8, type: 3}
+  m_Name: Zombie3
+  m_EditorClassIdentifier: 
+  animOverride: {fileID: 22100000, guid: 531266428d0085147ab4cf9ed60c60b9, type: 2}
+  Speed: 1.5
+  CrawlSpeed: 0.7
+  DistanceToStop: 1.15
+  CanCrawl: 1
+  MaxHealth: 50
+  attackType: 0
+  AttackDamage: 12
+  AttackCooldown: 1.2
+  AttackRange: 1.2
+  AttackClip: {fileID: 8300000, guid: 3f270bc6f27cac740b04351f0a83b850, type: 3}
+  AttackProjectile: {fileID: 0}
+  drops:
+  - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
+    DropChance: 15
+  - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
+    DropChance: 2
+  - dropPrefab: {fileID: 5173873797357163941, guid: 35af6df440cbc0e4793f591045e4b9ce, type: 3}
+    DropChance: 0.5

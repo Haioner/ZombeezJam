@@ -7,6 +7,7 @@ public class HealthController : MonoBehaviour, IDamage
     [Header("Health")]
     [SerializeField] private float maxHealth;
     private float currentHealth;
+    public event EventHandler OnHealthChanged;
 
     [Header("Damage")]
     [SerializeField] private Blood blood;
@@ -35,6 +36,7 @@ public class HealthController : MonoBehaviour, IDamage
     {
         maxHealth = maxHealthValue;
         currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void Awake()

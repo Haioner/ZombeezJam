@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,7 +21,7 @@ public class PlayerCanvas : MonoBehaviour
     private PlayerMovement playerMovement;
     private HealthController healthController;
 
-    private void Start()
+    private void OnEnable()
     {
         playerManager = GetComponentInParent<PlayerManager>();
         playerMovement = GetComponentInParent<PlayerMovement>();
@@ -29,6 +30,18 @@ public class PlayerCanvas : MonoBehaviour
         healthSlider.maxValue = playerManager.MaxHealth;
         healthSlider.value = playerManager.MaxHealth;
         staminaSlider.maxValue = playerManager.MaxStamina;
+
+        healthController.OnHealthChanged += MaxHealthValue;
+    }
+
+    private void OnDisable()
+    {
+        healthController.OnHealthChanged -= MaxHealthValue;
+    }
+
+    private void MaxHealthValue(object sender, EventArgs e)
+    {
+        healthSlider.maxValue = playerManager.MaxHealth;
     }
 
     private void Update()

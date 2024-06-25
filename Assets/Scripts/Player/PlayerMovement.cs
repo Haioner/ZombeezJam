@@ -68,13 +68,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift) && currentStamina > 0 && !chargingStamina && rb.velocity.magnitude > 0)
         {
-            currentSpeed = playerManager.RunSpeed;
+            currentSpeed = playerManager.WalkSpeed * 2;
             currentStamina -= Time.deltaTime * playerManager.StaminaSpeed;
+            playerManager.anim.speed = 2;
         }
         else if (currentStamina < playerManager.MaxStamina)
         {
             currentStamina += Time.deltaTime * (playerManager.StaminaSpeed / 1.2f);
             currentSpeed = playerManager.WalkSpeed;
+            playerManager.anim.speed = 1;
         }
 
         if(currentStamina <= 0)
