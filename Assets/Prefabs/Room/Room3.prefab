@@ -166,6 +166,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!1 &180210567246195313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5229202733537505879}
+  m_Layer: 0
+  m_Name: Grounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5229202733537505879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180210567246195313}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8209933730645176261}
+  - {fileID: 3220072837931222757}
+  m_Father: {fileID: 2623205790381813461}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565698760771789041
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,8 +231,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7315975856117577044}
-  - {fileID: 8209933730645176261}
-  - {fileID: 3220072837931222757}
+  - {fileID: 5229202733537505879}
   - {fileID: 4851137919399017498}
   - {fileID: 8910798119317473274}
   - {fileID: 1677501743665456960}
@@ -220,17 +252,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015e86476740646469f44bf5463b3c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomListSO: {fileID: 11400000, guid: 9553dd2d5506f764f8e6e3f971594fa0, type: 2}
-  safeRoom: {fileID: 565698760771789041, guid: eb203d01f69790a408b223596b1fb895, type: 3}
-  spawnArea: {fileID: 8168575143191105913}
-  endPoint: {fileID: 1677501743665456960}
-  closedParticle: {fileID: 7089230984274851132}
-  endLightSprite: {fileID: 3222858226782832742}
-  endLight: {fileID: 5637295592563599242}
+  roomSettings:
+    RoomListSO: {fileID: 11400000, guid: 9553dd2d5506f764f8e6e3f971594fa0, type: 2}
+    SafeRoom: {fileID: 565698760771789041, guid: eb203d01f69790a408b223596b1fb895, type: 3}
+    PolygonSpawnArea: {fileID: 8168575143191105913}
+    groundParent: {fileID: 5229202733537505879}
+    randGrounds:
+    - {fileID: 21300000, guid: 64602c9dcd93bd945997b7158c9941a0, type: 3}
+    - {fileID: 21300000, guid: 6e4f15aa279fdab4f882f2e79543862f, type: 3}
+    - {fileID: 21300000, guid: dca32ece6fa602d45ab5fd77400fb4f7, type: 3}
+    - {fileID: 21300000, guid: 5321c4d824ef56d4091564d297f5044e, type: 3}
+    - {fileID: 21300000, guid: 20702cf89e5e7d741af3902bda477fdd, type: 3}
+    - {fileID: 21300000, guid: bea39a8ee7c4a0c4bb3d024cd3244c1b, type: 3}
+    wallTileMap:
+    - {fileID: 3743910677409228375}
+    - {fileID: 697675991458640995}
+    randWallColor:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.9607843, g: 0.5019608, b: 0.28627452, a: 1}
+    EndPoint: {fileID: 1677501743665456960}
+    ClosedParticle: {fileID: 7089230984274851132}
+    EndLightSprite: {fileID: 3222858226782832742}
+    EndLight: {fileID: 5637295592563599242}
   canSpawnCollectable: 1
   collectableSpawner:
     collectableHolder: {fileID: 3678206102567099442}
     collectablesPrefabs:
+    - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 269936094375980392, guid: 18e91d8c0e493d94e9c93158e1bcd0b8, type: 3}
     collectableCountRange: {x: 1, y: 10}
@@ -238,8 +286,7 @@ MonoBehaviour:
   enemySpawner:
     EnemyPrefab: {fileID: 349301998609889593, guid: 658c8ea4be76d9d4081bcdd28581cdbc, type: 3}
     EnemyCountRange: {x: 1, y: 5}
-    RoomEnemiesType:
-    - {fileID: 11400000, guid: 392bd5267e03f9f4e8b6fbe1570689a7, type: 2}
+    RoomEnemiesList: {fileID: 11400000, guid: 7370a748e7ffaf34aa84155847b85ec2, type: 2}
 --- !u!114 &2995605806020930255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,11 +326,11 @@ Transform:
   m_GameObject: {fileID: 650493719101795555}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.000004, y: -35.375, z: 0}
+  m_LocalPosition: {x: 24, y: -35.375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2623205790381813461}
+  m_Father: {fileID: 5229202733537505879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5103940906561069947
 SpriteRenderer:
@@ -5408,7 +5455,7 @@ MonoBehaviour:
   - {x: 20.000029, y: -33, z: 0}
   m_ShapePathHash: -23477094
   m_Mesh: {fileID: 0}
-  m_InstanceId: 73792
+  m_InstanceId: 117872
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -7.5, z: 0}
     m_Extent: {x: 13.999986, y: 25.5, z: 0}
@@ -5807,7 +5854,7 @@ MonoBehaviour:
   - {x: 0.000029300001, y: -46, z: 0}
   m_ShapePathHash: -1075125121
   m_Mesh: {fileID: 0}
-  m_InstanceId: 73664
+  m_InstanceId: 117742
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -23.5, z: 0}
     m_Extent: {x: 13.999986, y: 22.5, z: 0}
@@ -14798,7 +14845,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2623205790381813461}
+  m_Father: {fileID: 5229202733537505879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7647047915992876883
 SpriteRenderer:
@@ -19899,7 +19946,7 @@ GameObject:
   - component: {fileID: 3392994400528392489}
   - component: {fileID: 8168575143191105913}
   m_Layer: 9
-  m_Name: SpawnPositions
+  m_Name: PolyonSpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20386,7 +20433,7 @@ GameObject:
   - component: {fileID: 3700058911381808306}
   - component: {fileID: 3222858226782832742}
   m_Layer: 0
-  m_Name: WallLight
+  m_Name: EndWallLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

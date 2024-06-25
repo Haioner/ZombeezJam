@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (DataManager.instance == null) return;
 
+        MaxStamina = DataManager.instance.gameData.characterStats.Stamina;
         WalkSpeed = DataManager.instance.gameData.characterStats.MaxSpeed;
         MaxHealth = DataManager.instance.gameData.characterStats.MaxHealth;
         healthController.SetNewMaxHealth(MaxHealth);

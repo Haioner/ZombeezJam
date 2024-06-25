@@ -51,11 +51,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drops:
   - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
-    DropChance: 40
+    DropChance: 20
   - dropPrefab: {fileID: 5216150325094745739, guid: 6ee0a1350cdc3ae46b030536df7d7f24, type: 3}
     DropChance: 7
   - dropPrefab: {fileID: 5173873797357163941, guid: 35af6df440cbc0e4793f591045e4b9ce, type: 3}
     DropChance: 1
+  - dropPrefab: {fileID: 8207210234276496077, guid: a932c2f1333939a4d97066b5d6eb5506, type: 3}
+    DropChance: 20
 --- !u!114 &1634735251858705593
 MonoBehaviour:
   m_ObjectHideFlags: 0

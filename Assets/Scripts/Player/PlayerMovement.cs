@@ -18,7 +18,10 @@ public class PlayerMovement : MonoBehaviour
         playerManager = GetComponent<PlayerManager>();
         rb = GetComponent<Rigidbody2D>();
         cam = Camera.main;
+    }
 
+    private void Start()
+    {
         currentSpeed = playerManager.WalkSpeed;
         currentStamina = playerManager.MaxStamina;
     }

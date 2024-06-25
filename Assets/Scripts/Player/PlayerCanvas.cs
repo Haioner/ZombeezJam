@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+using System;
+using TMPro;
 
 public class PlayerCanvas : MonoBehaviour
 {
@@ -17,6 +15,9 @@ public class PlayerCanvas : MonoBehaviour
     [SerializeField] private Image staminaFill;
     [SerializeField] private Color[] staminaColors;
 
+    [Header("Coin")]
+    [SerializeField] private TextMeshProUGUI coinText;
+
     private PlayerManager playerManager;
     private PlayerMovement playerMovement;
     private HealthController healthController;
@@ -29,7 +30,7 @@ public class PlayerCanvas : MonoBehaviour
 
         healthSlider.maxValue = playerManager.MaxHealth;
         healthSlider.value = playerManager.MaxHealth;
-        staminaSlider.maxValue = playerManager.MaxStamina;
+
 
         healthController.OnHealthChanged += MaxHealthValue;
     }
@@ -37,6 +38,15 @@ public class PlayerCanvas : MonoBehaviour
     private void OnDisable()
     {
         healthController.OnHealthChanged -= MaxHealthValue;
+    }
+
+    private void Start()
+    {
+        staminaSlider.maxValue = playerManager.MaxStamina;
+        staminaSlider.value = playerManager.MaxStamina;
+
+        GameManager.instance.OnCoinChanged += CoinUI;
+        CoinUI(null, EventArgs.Empty);
     }
 
     private void MaxHealthValue(object sender, EventArgs e)
@@ -48,6 +58,11 @@ public class PlayerCanvas : MonoBehaviour
     {
         HealthSlider();
         StaminaSlider();
+    }
+
+    private void CoinUI(object sender, EventArgs e)
+    {
+        coinText.text = "<sprite=0>" + GameManager.instance.Coins.ToString();
     }
 
     private void HealthSlider()

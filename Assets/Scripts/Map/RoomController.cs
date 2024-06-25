@@ -1,15 +1,28 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [System.Serializable]
-public class EnemySpawner
+public class RoomSettings
 {
-    public EnemyManager EnemyPrefab;
-    public Vector2 EnemyCountRange = new Vector2(1, 5);
-    public List<EnemySO> RoomEnemiesType = new List<EnemySO>();
+    [Header("Room")]
+    public RoomListSO RoomListSO;
+    public GameObject SafeRoom;
+    public PolygonCollider2D PolygonSpawnArea;
+
+    [Header("Room Type")]
+    public Transform groundParent;
+    public Sprite[] randGrounds;
+    public Tilemap[] wallTileMap;
+    public Color[] randWallColor;
+
+    [Header("End")]
+    public Transform EndPoint;
+    public ParticleSystem ClosedParticle;
+    public SpriteRenderer EndLightSprite;
+    public Light2D EndLight;
 }
 
 [System.Serializable]
@@ -20,19 +33,19 @@ public class CollectableSpawner
     public Vector2 collectableCountRange = new Vector2(1, 5);
 }
 
+[System.Serializable]
+public class EnemySpawner
+{
+    public EnemyManager EnemyPrefab;
+    public Vector2 EnemyCountRange = new Vector2(1, 5);
+    public EnemiesListSO RoomEnemiesList;
+}
+
 public class RoomController : MonoBehaviour
 {
     [Header("Rooms")]
-    [SerializeField] private RoomListSO roomListSO;
-    [SerializeField] private GameObject safeRoom;
-    [SerializeField] private PolygonCollider2D spawnArea;
+    [SerializeField] private RoomSettings roomSettings;
     private bool hasSpawnedRoom;
-
-    [Header("End")]
-    [SerializeField] private Transform endPoint;
-    [SerializeField] private ParticleSystem closedParticle;
-    [SerializeField] private SpriteRenderer endLightSprite;
-    [SerializeField] private Light2D endLight;
 
     [Header("Collectables")]
     [SerializeField] private bool canSpawnCollectable = true;
@@ -47,6 +60,7 @@ public class RoomController : MonoBehaviour
     {
         SpawnRandomizedCollectables();
         SpawnRandomizedEnemies();
+        RandRoomType();
     }
 
     public void NextRoom()
@@ -61,19 +75,65 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    public void RemoveEnemyFromList(EnemyManager enemyManager)
+    {
+        currentEnemiesList.Remove(enemyManager);
+        CheckCanNextRoom();
+    }
+
+    private void CheckCanNextRoom()
+    {
+        if (currentEnemiesList.Count <= 0)
+        {
+            if (GameManager.instance != null)
+                GameManager.instance.CleanText();
+
+            NextRoom();
+            roomSettings.EndPoint.GetComponentInChildren<DOTweenAnimation>().DORestart();
+            if (roomSettings.ClosedParticle != null)
+            {
+                var emission = roomSettings.ClosedParticle.emission;
+                emission.rateOverTime = 0;
+            }
+            EndLight();
+        }
+    }
+
+    private void EndLight()
+    {
+        if (roomSettings.EndLight == null) return;
+
+        roomSettings.EndLightSprite.color = Color.green;
+        roomSettings.EndLight.color = Color.green;
+    }
+
     private void SpawnNewRoom()
     {
         if (GameManager.instance.CurrentRoom % 10 == 0)
         {
-            Instantiate(safeRoom, endPoint.position, Quaternion.identity);
+            Instantiate(roomSettings.SafeRoom, roomSettings.EndPoint.position, Quaternion.identity);
         }
         else
         {
-            int maxRoom = GameManager.instance.CurrentRoom + 2 < roomListSO.rooms.Count ? GameManager.instance.CurrentRoom + 2 : roomListSO.rooms.Count;
-            int minRoom = GameManager.instance.CurrentRoom - 1 < maxRoom && maxRoom - 4 >= 0 ? maxRoom - 4 : 0;
-            int randRoom = Random.Range(minRoom, maxRoom);
+            int maxRoom = GameManager.instance.CurrentRoom + 2 < roomSettings.RoomListSO.rooms.Count ? 
+                GameManager.instance.CurrentRoom + 2 : roomSettings.RoomListSO.rooms.Count;
+            int randRoom = Random.Range(0, maxRoom);
+            Instantiate(roomSettings.RoomListSO.rooms[randRoom], roomSettings.EndPoint.position, Quaternion.identity);
+        }
+    }
 
-            Instantiate(roomListSO.rooms[randRoom], endPoint.position, Quaternion.identity);
+    private void RandRoomType()
+    {
+        int randGround = Random.Range(0, roomSettings.randGrounds.Length);
+        foreach (Transform child in roomSettings.groundParent.transform)
+        {
+            child.GetComponent<SpriteRenderer>().sprite = roomSettings.randGrounds[randGround];
+        }
+
+        int randWallColor = Random.Range(0, roomSettings.randWallColor.Length);
+        foreach (var tileMap in roomSettings.wallTileMap)
+        {
+            tileMap.color = roomSettings.randWallColor[randWallColor];
         }
     }
 
@@ -114,8 +174,10 @@ public class RoomController : MonoBehaviour
             {
                 EnemyManager newEnemy = Instantiate(enemySpawner.EnemyPrefab, spawnPosition, Quaternion.identity);
                 currentEnemiesList.Add(newEnemy);
-                int randEnemy = Random.Range(0, enemySpawner.RoomEnemiesType.Count);
-                newEnemy.InitiateRandomEnemy(enemySpawner.RoomEnemiesType[randEnemy], this);
+
+                int maxRandEnemy = Mathf.Min(GameManager.instance.CurrentRoom / 5, enemySpawner.RoomEnemiesList.EnemiesList.Count - 1);
+                int randEnemy = Random.Range(0, maxRandEnemy + 1);
+                newEnemy.InitiateRandomEnemy(enemySpawner.RoomEnemiesList.EnemiesList[randEnemy], this);
 
                 if (Random.value < 0.5f)
                 {
@@ -129,45 +191,13 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    public void RemoveEnemyFromList(EnemyManager enemyManager)
-    {
-        currentEnemiesList.Remove(enemyManager);
-        CheckCanNextRoom();
-    }
-
-    private void CheckCanNextRoom()
-    {
-        if (currentEnemiesList.Count <= 0)
-        {
-            if (GameManager.instance != null)
-                GameManager.instance.CleanText();
-
-            NextRoom();
-            endPoint.GetComponentInChildren<DOTweenAnimation>().DORestart();
-            if (closedParticle != null)
-            {
-                var emission = closedParticle.emission;
-                emission.rateOverTime = 0;
-            }
-            EndLight();
-        }
-    }
-
-    private void EndLight()
-    {
-        if (endLight == null) return;
-
-        endLightSprite.color = Color.green;
-        endLight.color = Color.green;
-    }
-
     private Vector2 GetValidSpawnPosition()
     {
         int spawnAreaLayerMask = 1 << LayerMask.NameToLayer("SpawnArea");
 
         for (int attempt = 0; attempt < 10; attempt++)
         {
-            Vector2 randomPosition = GetRandomPointInPolygon(spawnArea);
+            Vector2 randomPosition = GetRandomPointInPolygon(roomSettings.PolygonSpawnArea);
 
             Collider2D hitCollider = Physics2D.OverlapCircle(randomPosition, 1.2f, ~spawnAreaLayerMask);
             if (hitCollider == null)

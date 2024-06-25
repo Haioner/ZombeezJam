@@ -15,10 +15,16 @@ public class CanvasWeaponStatistics
     public TextMeshProUGUI ReloadTimeText;
 }
 
+[System.Serializable]
+public enum DropType
+{
+    Bad, Normal, Shop 
+}
+
 public class WeaponDrop : MonoBehaviour, IInteractable
 {
-    [Header("Safe Room")]
-    [SerializeField] private bool isSafeRoom;
+    [Header("Type")]
+    [SerializeField] private DropType dropType;
 
     [Header("Weapon")]
     [SerializeField] private List<WeaponSO> weaponsList = new List<WeaponSO>();
@@ -37,10 +43,13 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
     [Header("Canvas")]
     [SerializeField] private GameObject statsCanvas;
+    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private FloatNumber floatNumberPrefab;
 
     private AudioSource audioSource;
     private WeaponController weaponController;
     private bool hasComparedValues;
+    private int weaponPrice;
 
     private void Start()
     {
@@ -50,6 +59,8 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         UpdateSprite();
         RandBullets();
         RandStatistics();
+
+        weaponPrice = (GameManager.instance.CurrentRoom * 2) + 5;
     }
 
     private void Update()
@@ -84,17 +95,19 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         float tier1Threshold = 0.85f - (currentRoom * 0.015f);
         float tier2Threshold = 0.98f - (currentRoom * 0.015f);
 
-        if (isSafeRoom)
+        if (dropType == DropType.Shop)
         {
             if (currentRoom >= 20 && currentRoom < 30)
-                return randomValue < 0.50f ? 1 : randomValue < 0.95f ? 2 : 3;
+                return randomValue < 0.27f ? 1 : randomValue < 0.97f ? 2 : 3;
 
             else if (currentRoom >= 30)
-                return randomValue < 0.20f ? 1 : randomValue < 0.70f ? 2 : 3;
+                return randomValue < 0.05f ? 1 : randomValue < 0.30f ? 2 : 3;
 
             else
                 return randomValue < tier1Threshold ? 1 : randomValue < tier2Threshold ? 2 : 3;
         }
+        else if (dropType == DropType.Bad)
+            return 1;
         else
             return randomValue < tier1Threshold ? 1 : randomValue < tier2Threshold ? 2 : 3;
     }
@@ -162,11 +175,23 @@ public class WeaponDrop : MonoBehaviour, IInteractable
         ComparateValues(true, statistics.AmmoAmount, weaponController.statistics.AmmoAmount, canvasWeaponDropStatistics.AmmoAmountText, "CARTRIDGE: ", "F0");
         ComparateValues(false, statistics.ReloadTime, weaponController.statistics.ReloadTime, canvasWeaponDropStatistics.ReloadTimeText, "RELOAD: ", "F1");
 
+        WeaponPriceUI();
+    }
+
+    private void WeaponPriceUI()
+    {
+        if (dropType == DropType.Shop)
+        {
+            priceText.text = "<sprite=0>" + weaponPrice.ToString();
+        }
+        else
+        {
+            priceText.text = "";
+        }
     }
 
     private void ComparateValues(bool moreIsGood, float firstValue, float compareValue, TextMeshProUGUI statisticsText, string contentName, string stringFormat)
     {
-        //statisticsText.text = "<sprite=" + spriteIndex.ToString() + "> " + firstValue.ToString(stringFormat);
         statisticsText.text = contentName + firstValue.ToString(stringFormat);
 
         if (moreIsGood)
@@ -228,6 +253,27 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     }
 
     public void Interact()
+    {
+        if (dropType == DropType.Normal)
+            SwitchWeapon();
+        else
+        {
+            if(GameManager.instance.Coins >= weaponPrice)
+            {
+                GameManager.instance.SubtractCoin(weaponPrice);
+                SwitchWeapon();
+                dropType = DropType.Normal;
+                WeaponPriceUI();
+            }
+            else
+            {
+                FloatNumber floatNumber = Instantiate(floatNumberPrefab, transform.position, Quaternion.identity);
+                floatNumber.InitFloatNumber("Not enough coins", Color.red);
+            }
+        }
+    }
+
+    private void SwitchWeapon()
     {
         audioSource.PlayOneShot(currentWeaponSO.EndReloadClip);
 

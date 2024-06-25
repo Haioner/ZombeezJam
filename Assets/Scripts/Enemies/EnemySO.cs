@@ -7,7 +7,7 @@ public enum AttackType
     Meele, Ranged
 }
 
-[CreateAssetMenu(menuName = "Enemy")]
+[CreateAssetMenu(menuName = "Enemy/EnemySO")]
 public class EnemySO : ScriptableObject
 {
     [Header("Animation")]

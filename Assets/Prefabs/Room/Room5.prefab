@@ -219,17 +219,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015e86476740646469f44bf5463b3c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomListSO: {fileID: 11400000, guid: 9553dd2d5506f764f8e6e3f971594fa0, type: 2}
-  safeRoom: {fileID: 565698760771789041, guid: eb203d01f69790a408b223596b1fb895, type: 3}
-  spawnArea: {fileID: 8168575143191105913}
-  endPoint: {fileID: 1677501743665456960}
-  closedParticle: {fileID: 7089230984274851132}
-  endLightSprite: {fileID: 6270208911280647471}
-  endLight: {fileID: 6141912333195393660}
+  roomSettings:
+    RoomListSO: {fileID: 11400000, guid: 9553dd2d5506f764f8e6e3f971594fa0, type: 2}
+    SafeRoom: {fileID: 565698760771789041, guid: eb203d01f69790a408b223596b1fb895, type: 3}
+    PolygonSpawnArea: {fileID: 8168575143191105913}
+    groundParent: {fileID: 5785168700237831520}
+    randGrounds:
+    - {fileID: 21300000, guid: 64602c9dcd93bd945997b7158c9941a0, type: 3}
+    - {fileID: 21300000, guid: 6e4f15aa279fdab4f882f2e79543862f, type: 3}
+    - {fileID: 21300000, guid: dca32ece6fa602d45ab5fd77400fb4f7, type: 3}
+    - {fileID: 21300000, guid: 5321c4d824ef56d4091564d297f5044e, type: 3}
+    - {fileID: 21300000, guid: 20702cf89e5e7d741af3902bda477fdd, type: 3}
+    - {fileID: 21300000, guid: bea39a8ee7c4a0c4bb3d024cd3244c1b, type: 3}
+    wallTileMap:
+    - {fileID: 3743910677409228375}
+    - {fileID: 697675991458640995}
+    randWallColor:
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 0.9607843, g: 0.5019608, b: 0.28627452, a: 1}
+    EndPoint: {fileID: 1677501743665456960}
+    ClosedParticle: {fileID: 7089230984274851132}
+    EndLightSprite: {fileID: 6270208911280647471}
+    EndLight: {fileID: 6141912333195393660}
   canSpawnCollectable: 1
   collectableSpawner:
     collectableHolder: {fileID: 3678206102567099442}
     collectablesPrefabs:
+    - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 269936094375980392, guid: 18e91d8c0e493d94e9c93158e1bcd0b8, type: 3}
     collectableCountRange: {x: 1, y: 10}
@@ -237,9 +253,7 @@ MonoBehaviour:
   enemySpawner:
     EnemyPrefab: {fileID: 349301998609889593, guid: 658c8ea4be76d9d4081bcdd28581cdbc, type: 3}
     EnemyCountRange: {x: 1, y: 5}
-    RoomEnemiesType:
-    - {fileID: 11400000, guid: 392bd5267e03f9f4e8b6fbe1570689a7, type: 2}
-    - {fileID: 11400000, guid: c8b346f2172bc394a81230e32892bc0b, type: 2}
+    RoomEnemiesList: {fileID: 11400000, guid: 7370a748e7ffaf34aa84155847b85ec2, type: 2}
 --- !u!114 &2995605806020930255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5869,7 +5883,7 @@ GameObject:
   - component: {fileID: 4891328822660961720}
   - component: {fileID: 6270208911280647471}
   m_Layer: 0
-  m_Name: WallLight
+  m_Name: EndWallLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6245,7 +6259,7 @@ MonoBehaviour:
   - {x: 22.000029, y: -21, z: 0}
   m_ShapePathHash: 1240367999
   m_Mesh: {fileID: 0}
-  m_InstanceId: 115514
+  m_InstanceId: 119486
   m_LocalBounds:
     m_Center: {x: 36, y: -11, z: 0}
     m_Extent: {x: 36, y: 10, z: 0}
@@ -17606,7 +17620,7 @@ MonoBehaviour:
   - {x: 0.000029300001, y: 3, z: 0}
   m_ShapePathHash: -309318685
   m_Mesh: {fileID: 0}
-  m_InstanceId: 115594
+  m_InstanceId: 119566
   m_LocalBounds:
     m_Center: {x: 36, y: 9, z: 0}
     m_Extent: {x: 36, y: 6, z: 0}
@@ -22996,7 +23010,7 @@ GameObject:
   - component: {fileID: 3392994400528392489}
   - component: {fileID: 8168575143191105913}
   m_Layer: 9
-  m_Name: SpawnPositions
+  m_Name: PolyonSpawnPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

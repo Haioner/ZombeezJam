@@ -8,6 +8,7 @@ public class SkinSelector : MonoBehaviour
     [SerializeField] private Image skinImage;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI staminaText;
     [SerializeField] private TextMeshProUGUI rateText;
 
     [Header("Skins")]
@@ -34,6 +35,7 @@ public class SkinSelector : MonoBehaviour
     {
         healthText.text = "Health " + charactersStats[currentSkin].MaxHealth.ToString("F0");
         speedText.text = "Speed " + charactersStats[currentSkin].MaxSpeed.ToString("F1");
+        staminaText.text = "Stamina " + charactersStats[currentSkin].Stamina.ToString("F0");
         rateText.text = "Shoot Rate " + charactersStats[currentSkin].ShootRate.ToString("F1");
     }
 

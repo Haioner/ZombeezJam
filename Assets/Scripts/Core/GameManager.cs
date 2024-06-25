@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int CurrentRoom { get; private set; }
+    public int Coins { get; private set; }
+    public event EventHandler OnCoinChanged;
 
     [Header("Room UI")]
     [SerializeField] private TextMeshProUGUI roomText;
@@ -17,6 +20,18 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    public void AddCoin(int value)
+    {
+        Coins += value;
+        OnCoinChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SubtractCoin(int value)
+    {
+        Coins -= value;
+        OnCoinChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddCurrentRoom()
