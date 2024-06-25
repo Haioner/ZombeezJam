@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [System.Serializable]
 public class EnemySpawner
@@ -22,12 +23,16 @@ public class CollectableSpawner
 public class RoomController : MonoBehaviour
 {
     [Header("Rooms")]
-    [SerializeField] private Transform endPoint;
-    [SerializeField] private PolygonCollider2D spawnArea;
     [SerializeField] private RoomListSO roomListSO;
     [SerializeField] private GameObject safeRoom;
-    [SerializeField] private ParticleSystem closedParticle;
+    [SerializeField] private PolygonCollider2D spawnArea;
     private bool hasSpawnedRoom;
+
+    [Header("End")]
+    [SerializeField] private Transform endPoint;
+    [SerializeField] private ParticleSystem closedParticle;
+    [SerializeField] private SpriteRenderer endLightSprite;
+    [SerializeField] private Light2D endLight;
 
     [Header("Collectables")]
     [SerializeField] private bool canSpawnCollectable = true;
@@ -144,7 +149,16 @@ public class RoomController : MonoBehaviour
                 var emission = closedParticle.emission;
                 emission.rateOverTime = 0;
             }
+            EndLight();
         }
+    }
+
+    private void EndLight()
+    {
+        if (endLight == null) return;
+
+        endLightSprite.color = Color.green;
+        endLight.color = Color.green;
     }
 
     private Vector2 GetValidSpawnPosition()

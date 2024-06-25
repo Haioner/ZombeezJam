@@ -17,6 +17,7 @@ MonoBehaviour:
   CrawlSpeed: 1
   DistanceToStop: 1.1
   CanCrawl: 1
+  MaxHealth: 30
   attackType: 1
   AttackDamage: 10
   AttackCooldown: 1

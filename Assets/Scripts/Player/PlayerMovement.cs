@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currentSpeed = playerManager.WalkSpeed * 2;
             currentStamina -= Time.deltaTime * playerManager.StaminaSpeed;
-            playerManager.anim.speed = 2;
+            playerManager.anim.speed = 1.5f;
         }
         else if (currentStamina < playerManager.MaxStamina)
         {

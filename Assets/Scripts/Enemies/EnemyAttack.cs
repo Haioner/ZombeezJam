@@ -60,7 +60,7 @@ public class EnemyAttack : MonoBehaviour
             playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthController>();
 
         float distance = Vector2.Distance(playerHealth.transform.position, transform.position);
-        if (distance <= 1.1f)
+        if (distance <= enemyManager.enemySO.AttackRange)
             playerHealth.TakeDamage(enemyManager.enemySO.AttackDamage);
     }
 
