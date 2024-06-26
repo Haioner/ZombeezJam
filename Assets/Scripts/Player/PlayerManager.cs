@@ -113,6 +113,10 @@ public class PlayerManager : MonoBehaviour
 
     private void Death(object sender, EventArgs e)
     {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+
         playerMovement.enabled = false;
         weaponController.gameObject.SetActive(false);
         lightTransform.gameObject.SetActive(false);

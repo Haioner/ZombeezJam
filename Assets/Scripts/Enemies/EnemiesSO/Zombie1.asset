@@ -23,7 +23,9 @@ MonoBehaviour:
   AttackCooldown: 1
   AttackRange: 1.1
   AttackClip: {fileID: 8300000, guid: 3f270bc6f27cac740b04351f0a83b850, type: 3}
+  attackClipVolume: 1
   AttackProjectile: {fileID: 0}
+  fireParticleAttack: {fileID: 0}
   drops:
   - dropPrefab: {fileID: 6005470988468258911, guid: e427bc9024c6f2f4f8630bbff8808494, type: 3}
     DropChance: 15

@@ -29,6 +29,7 @@ public class EnemySO : ScriptableObject
     public float AttackRange = 5f;
     public AudioClip AttackClip;
     public Projectile AttackProjectile;
+    public ParticleSystem fireParticleAttack;
 
     [Header("Drops")]
     public List<Drops> drops = new List<Drops>();

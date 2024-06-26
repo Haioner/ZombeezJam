@@ -254,11 +254,9 @@ public class WeaponDrop : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (dropType == DropType.Normal)
-            SwitchWeapon();
-        else
+        if (dropType == DropType.Shop)
         {
-            if(GameManager.instance.Coins >= weaponPrice)
+            if (GameManager.instance.Coins >= weaponPrice)
             {
                 GameManager.instance.SubtractCoin(weaponPrice);
                 SwitchWeapon();
@@ -270,6 +268,10 @@ public class WeaponDrop : MonoBehaviour, IInteractable
                 FloatNumber floatNumber = Instantiate(floatNumberPrefab, transform.position, Quaternion.identity);
                 floatNumber.InitFloatNumber("Not enough coins", Color.red);
             }
+        }
+        else
+        {
+            SwitchWeapon();
         }
     }
 

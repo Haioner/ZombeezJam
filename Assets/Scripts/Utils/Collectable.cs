@@ -15,6 +15,7 @@ public class Collectable : MonoBehaviour
 
     protected int randValue;
     protected Collider2D objectCollider;
+    private bool hasCollected;
 
     private void Start()
     {
@@ -30,8 +31,9 @@ public class Collectable : MonoBehaviour
         {
             objectCollider = collision;
 
-            if (CanCollect())
+            if (CanCollect() && !hasCollected)
             {
+                hasCollected = true;
                 OnCollect(collision);
                 SoundManager.PlayAudioClipVolume(collectClip, audioVolume);
                 Destroy(gameObject);

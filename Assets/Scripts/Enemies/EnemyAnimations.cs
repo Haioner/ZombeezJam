@@ -29,7 +29,9 @@ public class EnemyAnimations : MonoBehaviour
     public void HitAnimation()
     {
         CrawlCheck();
-        anim.SetTrigger("Hit");
+
+        if (enemyManager.enemyState != EnemyState.Attack)
+            anim.SetTrigger("Hit");
     }
 
     public void AttackAnimation()

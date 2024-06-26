@@ -280,8 +280,9 @@ MonoBehaviour:
     collectablesPrefabs:
     - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
+    - {fileID: 2991633141311720627, guid: 228c0bb0fff3c8347b165c464a685e13, type: 3}
     - {fileID: 269936094375980392, guid: 18e91d8c0e493d94e9c93158e1bcd0b8, type: 3}
-    collectableCountRange: {x: 1, y: 10}
+    collectableCountRange: {x: 3, y: 10}
   canSpawnEnemy: 1
   enemySpawner:
     EnemyPrefab: {fileID: 349301998609889593, guid: 658c8ea4be76d9d4081bcdd28581cdbc, type: 3}
@@ -5455,7 +5456,7 @@ MonoBehaviour:
   - {x: 20.000029, y: -33, z: 0}
   m_ShapePathHash: -23477094
   m_Mesh: {fileID: 0}
-  m_InstanceId: 117872
+  m_InstanceId: 67526
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -7.5, z: 0}
     m_Extent: {x: 13.999986, y: 25.5, z: 0}
@@ -5854,7 +5855,7 @@ MonoBehaviour:
   - {x: 0.000029300001, y: -46, z: 0}
   m_ShapePathHash: -1075125121
   m_Mesh: {fileID: 0}
-  m_InstanceId: 117742
+  m_InstanceId: 67396
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -23.5, z: 0}
     m_Extent: {x: 13.999986, y: 22.5, z: 0}

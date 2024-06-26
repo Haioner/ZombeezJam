@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CoinDrop : MonoBehaviour
@@ -15,5 +16,17 @@ public class CoinDrop : MonoBehaviour
             Instantiate(coinParticle, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+
+    public void StopForce(float time)
+    {
+        StartCoroutine(StopForceCoroutine(time));
+    }
+
+    private IEnumerator StopForceCoroutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        GetComponent<Rigidbody2D>().angularVelocity = 0;
     }
 }

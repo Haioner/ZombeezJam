@@ -139,7 +139,8 @@ public class EnemyManager : MonoBehaviour
         if (isCrawl)
         {
             standColliders.SetActive(false);
-            crawlColliders.SetActive(true);
+            if (crawlColliders != null)
+                crawlColliders.SetActive(true);
         }
     }
 
@@ -153,7 +154,8 @@ public class EnemyManager : MonoBehaviour
         enemyState = EnemyState.Death;
         rb.velocity = Vector2.zero;
         standColliders.SetActive(false);
-        crawlColliders.SetActive(false);
+        if (crawlColliders != null)
+            crawlColliders.SetActive(false);
 
         transform.GetComponent<CapsuleCollider2D>().enabled = false;
         if (currentRoom != null)

@@ -75,11 +75,24 @@ public class EnemyAttack : MonoBehaviour
         Vector2 directionToPlayer = (targetPosition - (Vector2)attackPivot.position).normalized;
         float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
         SpawnProjectile(angle);
+
+        if (enemyManager.enemySO.fireParticleAttack != null)
+            SpawnShootFire(angle);
     }
 
     private void SpawnProjectile(float angle)
     {
         Projectile newBullet = Instantiate(enemyManager.enemySO.AttackProjectile, attackPivot.position, Quaternion.identity);
         newBullet.InitProjectile(angle, enemyManager.enemySO.AttackDamage, gameObject);
+    }
+
+    private void SpawnShootFire(float angle)
+    {
+        ParticleSystem fire = Instantiate(enemyManager.enemySO.fireParticleAttack, attackPivot.position, Quaternion.identity);
+        var main = fire.main;
+        main.startRotation = -angle * Mathf.Deg2Rad;
+
+        Vector3 fireDirection = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.right;
+        fire.transform.rotation = Quaternion.LookRotation(Vector3.forward, fireDirection);
     }
 }
