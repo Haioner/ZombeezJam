@@ -95,16 +95,24 @@ public class RoomController : MonoBehaviour
                 var emission = roomSettings.ClosedParticle.emission;
                 emission.rateOverTime = 0;
             }
-            EndLight();
+            GreenEndLight();
         }
     }
 
-    private void EndLight()
+    public void GreenEndLight()
     {
         if (roomSettings.EndLight == null) return;
 
         roomSettings.EndLightSprite.color = Color.green;
         roomSettings.EndLight.color = Color.green;
+    }
+
+    public void RedEndLight()
+    {
+        if (roomSettings.EndLight == null) return;
+
+        roomSettings.EndLightSprite.color = Color.red;
+        roomSettings.EndLight.color = Color.red;
     }
 
     private void SpawnNewRoom()
