@@ -6,6 +6,7 @@ public class Explosive : MonoBehaviour
     [SerializeField] private float explosiveDamage;
     [SerializeField] private float explosiveRange;
     private HealthController healthController;
+    [HideInInspector] public bool hasExploded;
 
     private void Start()
     {
@@ -14,6 +15,7 @@ public class Explosive : MonoBehaviour
 
     public void Explode()
     {
+        hasExploded = true;
         Vector3 offsetPos = transform.position;
         offsetPos.y += YOffset;
 
@@ -22,9 +24,19 @@ public class Explosive : MonoBehaviour
         foreach (Collider2D hitCollider in hitColliders)
         {
             HealthController healthController = hitCollider.GetComponent<HealthController>();
-            if (healthController != null && this.healthController != healthController)
+            Explosive explosiveObj = hitCollider.GetComponent<Explosive>();
+
+            if(healthController != null && gameObject != hitCollider.gameObject)
             {
-                healthController.TakeDamage(explosiveDamage);
+                if (explosiveObj != null)
+                {
+                   if(!explosiveObj.hasExploded)
+                        healthController.TakeDamage(explosiveDamage + (GameManager.instance.CurrentRoom * 15f));
+                }
+                else
+                {
+                    healthController.TakeDamage(explosiveDamage + (GameManager.instance.CurrentRoom * 15f));
+                }
             }
         }
         Destroy(gameObject);

@@ -2,6 +2,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using TMPro;
+using DG.Tweening;
 
 public class PlayerCanvas : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerCanvas : MonoBehaviour
 
     [Header("Coin")]
     [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private DOTweenAnimation coinDOT;
 
     private PlayerManager playerManager;
     private PlayerMovement playerMovement;
@@ -63,6 +65,7 @@ public class PlayerCanvas : MonoBehaviour
     private void CoinUI(object sender, EventArgs e)
     {
         coinText.text = "<sprite=0>" + GameManager.instance.Coins.ToString();
+        coinDOT.DORestart();
     }
 
     private void HealthSlider()

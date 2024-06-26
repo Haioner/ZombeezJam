@@ -167,6 +167,7 @@ public class RoomController : MonoBehaviour
     {
         if (!canSpawnEnemy) return;
 
+        //Increase enemy count per room after min 10 room and max 30 room
         int minEnemySpawn = enemySpawner.EnemyCountRange.x + GameManager.instance.CurrentRoom > 10 ?
             10 : (int)enemySpawner.EnemyCountRange.x + GameManager.instance.CurrentRoom;
 
@@ -183,15 +184,19 @@ public class RoomController : MonoBehaviour
                 EnemyManager newEnemy = Instantiate(enemySpawner.EnemyPrefab, spawnPosition, Quaternion.identity);
                 currentEnemiesList.Add(newEnemy);
 
+                //Increase Rand Enemy Type by room per 5 rooms
                 int maxRandEnemy = Mathf.Min(GameManager.instance.CurrentRoom / 5, enemySpawner.RoomEnemiesList.EnemiesList.Count - 1);
                 int randEnemy = Random.Range(0, maxRandEnemy + 1);
                 newEnemy.InitiateRandomEnemy(enemySpawner.RoomEnemiesList.EnemiesList[randEnemy], this);
 
-                if (Random.value < 0.5f)
+                //Health increase by room
+                float chanceRoom = GameManager.instance.CurrentRoom / 30f;
+                float healthChance = GameManager.instance.CurrentRoom < 15 ? 1 : Random.Range(0f, 1f);
+                if (healthChance <= chanceRoom)
                 {
                     if (GameManager.instance.CurrentRoom != 0)
                     {
-                        float newMaxHealth = newEnemy.healthController.GetMaxHealth() + (GameManager.instance.CurrentRoom * 2f);
+                        float newMaxHealth = newEnemy.enemySO.MaxHealth + (GameManager.instance.CurrentRoom * 15f);
                         newEnemy.healthController.SetNewMaxHealth(newMaxHealth);
                     }
                 }

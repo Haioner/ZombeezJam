@@ -17,13 +17,12 @@ MonoBehaviour:
   CrawlSpeed: 1
   DistanceToStop: 1.6
   CanCrawl: 0
-  MaxHealth: 50
+  MaxHealth: 150
   attackType: 0
   AttackDamage: 20
   AttackCooldown: 1
   AttackRange: 1.6
   AttackClip: {fileID: 8300000, guid: 3f270bc6f27cac740b04351f0a83b850, type: 3}
-  attackClipVolume: 1
   AttackProjectile: {fileID: 0}
   fireParticleAttack: {fileID: 0}
   drops:

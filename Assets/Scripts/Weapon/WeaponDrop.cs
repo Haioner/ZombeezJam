@@ -80,10 +80,15 @@ public class WeaponDrop : MonoBehaviour, IInteractable
     {
         statistics.WeaponTier = GetRandomTier();
 
-        statistics.Damage = GetRandomStats(true, currentWeaponSO.BulletDamage);
+        float damagedCalculated = GetRandomStats(true, currentWeaponSO.BulletDamage) + GameManager.instance.CurrentRoom;
+        statistics.Damage = damagedCalculated;
+
         statistics.Spread = GetRandomStats(false, currentWeaponSO.Spread);
         statistics.Rate = GetRandomStats(true, currentWeaponSO.Rate);
-        statistics.AmmoAmount = GetIntRandomStats(true, currentWeaponSO.CartridgeAmount);
+
+        float ammoAmountCalculated = GetIntRandomStats(true, currentWeaponSO.CartridgeAmount) + GameManager.instance.CurrentRoom;
+        statistics.AmmoAmount = ammoAmountCalculated;
+
         statistics.ReloadTime = GetRandomStats(false, currentWeaponSO.ReloadCooldown);
     }
 

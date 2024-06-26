@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   YOffset: 0.5
   explosiveDamage: 40
-  explosiveRange: 2
+  explosiveRange: 2.5
 --- !u!114 &223683022899049571
 MonoBehaviour:
   m_ObjectHideFlags: 0

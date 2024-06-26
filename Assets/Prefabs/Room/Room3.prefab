@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preventBackCollider: {fileID: 5810943905744494244}
+  endPoint: {fileID: 1677501743665456960}
 --- !u!1 &650493719101795555
 GameObject:
   m_ObjectHideFlags: 0
@@ -5456,7 +5457,7 @@ MonoBehaviour:
   - {x: 20.000029, y: -33, z: 0}
   m_ShapePathHash: -23477094
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67526
+  m_InstanceId: 65624
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -7.5, z: 0}
     m_Extent: {x: 13.999986, y: 25.5, z: 0}
@@ -5855,7 +5856,7 @@ MonoBehaviour:
   - {x: 0.000029300001, y: -46, z: 0}
   m_ShapePathHash: -1075125121
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67396
+  m_InstanceId: 65494
   m_LocalBounds:
     m_Center: {x: 13.999986, y: -23.5, z: 0}
     m_Extent: {x: 13.999986, y: 22.5, z: 0}

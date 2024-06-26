@@ -50,7 +50,10 @@ public class EnemyAnimations : MonoBehaviour
     public void BackToIdleEvent()
     {
         if (enemyManager.enemyState != EnemyState.Death)
+        {
+            enemyManager.rb.isKinematic = false;
             enemyManager.enemyState = EnemyState.Idle;
+        }
     }
 
     public void AttackEvent()

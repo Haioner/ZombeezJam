@@ -45,7 +45,7 @@ public class ClownController : MonoBehaviour, IInteractable
             enemyManager.enabled = true;
             enemyMovement.enabled = true;
             enemyAttack.enabled = true;
-
+            enemyManager.healthController.SetNewMaxHealth(enemyManager.enemySO.MaxHealth + GameManager.instance.CurrentRoom * 50);
             weapon.SetActive(true);
         }
     }

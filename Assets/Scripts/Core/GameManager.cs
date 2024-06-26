@@ -22,6 +22,17 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            AddCurrentRoom();
+            Debug.Log("Current room : " + CurrentRoom);
+        }
+#endif
+    }
+
     public void AddCoin(int value)
     {
         Coins += value;

@@ -3,6 +3,7 @@ using UnityEngine;
 public class RoomDestroyer : MonoBehaviour
 {
     [SerializeField] private GameObject preventBackCollider;
+    [SerializeField] private Transform endPoint;
     private Transform player;
 
     private void Start()
@@ -15,12 +16,12 @@ public class RoomDestroyer : MonoBehaviour
     {
         if (player.position.x < transform.position.x) return;
 
-        if(PlayerIsBetween(100,150))
+        if(PlayerIsBetween(100,200))
         {
             if (preventBackCollider != null)
                 preventBackCollider.SetActive(true);
         }
-        else if(PlayerIsBetween(150, Mathf.Infinity))
+        else if(PlayerIsBetween(200, Mathf.Infinity))
         {
             Destroy(gameObject);
         }
@@ -33,6 +34,6 @@ public class RoomDestroyer : MonoBehaviour
 
     private float PlayerDistance()
     {
-        return Vector2.Distance(transform.position, player.position);
+        return Vector2.Distance(endPoint.position, player.position);
     }
 }

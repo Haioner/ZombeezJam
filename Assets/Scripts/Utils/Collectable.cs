@@ -4,8 +4,8 @@ using TMPro;
 public class Collectable : MonoBehaviour
 {
     [Header("Collectable")]
-    [SerializeField] private Vector2 minMaxRandomValue;
-    [SerializeField] private TextMeshProUGUI worldText;
+    [SerializeField] protected Vector2 minMaxRandomValue;
+    [SerializeField] protected TextMeshProUGUI worldText;
     [SerializeField] private FloatNumber floatNumberPrefab;
     [SerializeField] private string floatMessage;
 
@@ -18,6 +18,11 @@ public class Collectable : MonoBehaviour
     private bool hasCollected;
 
     private void Start()
+    {
+        RandAmmoAmount();
+    }
+
+    public virtual void RandAmmoAmount()
     {
         randValue = (int)Random.Range(minMaxRandomValue.x, minMaxRandomValue.y);
 

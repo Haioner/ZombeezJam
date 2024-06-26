@@ -29,7 +29,11 @@ public class EnemyAttack : MonoBehaviour
     private void Update()
     {
         if (enemyManager.enemyState == EnemyState.PreparedToAttack)
+        {
+            enemyManager.rb.isKinematic = true;
+            enemyManager.rb.velocity = Vector3.zero;
             CalculateAttack();
+        }
     }
 
     private void CalculateAttack()

@@ -6,10 +6,12 @@ using UnityEngine;
 public class Menu : MonoBehaviour
 {
     [SerializeField] private DOTweenAnimation optionsDOT;
+    [SerializeField] private AudioClip menuMusic;
 
     private void Start()
     {
         ReturnTimeScale();
+        MusicManager.instance.ChangeMusic(menuMusic, 0);
     }
 
     private void Update()
