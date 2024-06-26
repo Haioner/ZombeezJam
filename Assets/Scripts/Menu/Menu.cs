@@ -14,6 +14,11 @@ public class Menu : MonoBehaviour
         MusicManager.instance.ChangeMusic(menuMusic, 0);
     }
 
+    public void PlayButtonMusicChange()
+    {
+        MusicManager.instance.BackToNormalMusic();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

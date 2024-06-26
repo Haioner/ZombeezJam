@@ -687,17 +687,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 205224788}
   m_CullTransparentMesh: 1
---- !u!114 &378837439 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2254706461245029019, guid: 09a8a1017c8d90447b8ade6e9c11b7f2, type: 3}
-  m_PrefabInstance: {fileID: 7554888333163186610}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8df6699dbba598845961a03afa539447, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &398669163
 GameObject:
   m_ObjectHideFlags: 0
@@ -9033,10 +9022,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 378837439}
-        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
-        m_MethodName: BackToNormalMusic
-        m_Mode: 4
+      - m_Target: {fileID: 1666586248}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: PlayButtonMusicChange
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
