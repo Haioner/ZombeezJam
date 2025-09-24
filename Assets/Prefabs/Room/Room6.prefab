@@ -5979,7 +5979,7 @@ MonoBehaviour:
   - {x: 62.000034, y: -18, z: 0}
   m_ShapePathHash: 1226104209
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67428
+  m_InstanceId: 124196
   m_LocalBounds:
     m_Center: {x: 51.5, y: -9.5, z: 0}
     m_Extent: {x: 51.5, y: 8.5, z: 0}
@@ -21593,7 +21593,7 @@ MonoBehaviour:
   - {x: 0.000029300001, y: 3, z: 0}
   m_ShapePathHash: -894700879
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67552
+  m_InstanceId: 124320
   m_LocalBounds:
     m_Center: {x: 51.5, y: 8.5, z: 0}
     m_Extent: {x: 51.5, y: 5.5, z: 0}
@@ -27455,6 +27455,9 @@ PolygonCollider2D:
       - {x: 68.860176, y: -8.626498}
       - {x: 77.75911, y: -8.737712}
       - {x: 77.73862, y: -6.922056}
+      - {x: 77.73781, y: -0.74036956}
+      - {x: 81.23732, y: -0.7447345}
+      - {x: 81.159645, y: -6.769963}
       - {x: 94.8125, y: -6.738925}
       - {x: 94.78663, y: -3.439915}
       - {x: 86.80198, y: -3.2767215}

@@ -47,7 +47,7 @@ MonoBehaviour:
   gameData:
     CurrentSkin: 0
     characterStats:
-      MaxHealth: 0
-      MaxSpeed: 0
-      ShootRate: 0
-      Stamina: 0
+      MaxHealth: 100
+      MaxSpeed: 5
+      ShootRate: 1
+      Stamina: 100
